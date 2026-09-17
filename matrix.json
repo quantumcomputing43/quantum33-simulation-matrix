@@ -1,0 +1,13 @@
+{
+  "matrix_version": "V1.0",
+  "seed": 42,
+  "pipeline": [
+    "FALSIFICATION",
+    "ADVERSARIAL_STRESS",
+    "IDENTIFIABILITY",
+    "ROBUSTNESS",
+    "SURVIVOR_CHECK"
+  ],
+  "stop_on_failure": false,
+  "scientific_experiment": false
+}
