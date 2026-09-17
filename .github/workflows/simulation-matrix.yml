@@ -1,0 +1,30 @@
+name: Simulation Matrix
+
+on:
+  workflow_dispatch:
+
+  push:
+    paths:
+      - "simulation_matrix/runner.py"
+      - "simulation_matrix/matrix.json"
+      - "simulation_matrix/__init__.py"
+
+permissions:
+  contents: read
+
+jobs:
+  matrix:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run Simulation Matrix
+        run: |
+          python simulation_matrix/runner.py
