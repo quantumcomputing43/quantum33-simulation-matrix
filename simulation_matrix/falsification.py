@@ -20,7 +20,11 @@ def normalize(psi, dx):
 def fisher_information(psi, dx):
     rho = np.abs(psi) ** 2
 
-    drho = np.gradient(rho, dx, edge_order=2)
+    drho = np.gradient(
+        rho,
+        dx,
+        edge_order=2
+    )
 
     mask = rho > 1e-14
 
@@ -35,7 +39,11 @@ def quantum_potential_expectation(psi, x):
     amplitude = np.abs(psi)
 
     d2_amplitude = np.gradient(
-        np.gradient(amplitude, dx, edge_order=2),
+        np.gradient(
+            amplitude,
+            dx,
+            edge_order=2
+        ),
         dx,
         edge_order=2
     )
@@ -52,38 +60,65 @@ def quantum_potential_expectation(psi, x):
 
     rho = amplitude ** 2
 
-    return np.sum(rho * Q) * dx
+    return np.sum(
+        rho * Q
+    ) * dx
 
 
 def relative_error(a, b):
-    denominator = max(abs(a), abs(b), 1e-15)
+    denominator = max(
+        abs(a),
+        abs(b),
+        1e-15
+    )
+
     return abs(a - b) / denominator
 
 
 def gaussian(x):
-    return np.exp(-(x ** 2) / 2.0)
+    return np.exp(
+        -(x ** 2) / 2.0
+    )
 
 
 def non_gaussian(x):
-    return np.exp(-(x ** 4) / 4.0)
+    return np.exp(
+        -(x ** 4) / 4.0
+    )
 
 
 def multi_peak(x):
     return (
-        np.exp(-((x - 2.0) ** 2) / 1.5)
-        + 0.7 * np.exp(-((x + 2.0) ** 2) / 2.0)
+        np.exp(
+            -((x - 2.0) ** 2) / 1.5
+        )
+        + 0.7 * np.exp(
+            -((x + 2.0) ** 2) / 2.0
+        )
     )
 
 
 def asymmetric(x):
-    return np.exp(-(x ** 2) / 2.0) * (
-        1.0 + 0.20 * np.tanh(x)
+    return (
+        np.exp(
+            -(x ** 2) / 2.0
+        )
+        * (
+            1.0
+            + 0.20 * np.tanh(x)
+        )
     )
 
 
 def boundary_stress(x):
-    return np.exp(-(x ** 2) / 5.0) * (
-        1.0 + 0.15 * np.cos(2.0 * x)
+    return (
+        np.exp(
+            -(x ** 2) / 5.0
+        )
+        * (
+            1.0
+            + 0.15 * np.cos(2.0 * x)
+        )
     )
 
 
@@ -97,16 +132,29 @@ PROFILES = {
 
 
 def run_test(name, profile):
-    x = np.linspace(X_MIN, X_MAX, N_POINTS)
+    x = np.linspace(
+        X_MIN,
+        X_MAX,
+        N_POINTS
+    )
+
     dx = x[1] - x[0]
 
-    psi = normalize(profile(x), dx)
+    psi = normalize(
+        profile(x),
+        dx
+    )
 
-    fisher = fisher_information(psi, dx)
-
-    qb_expectation = quantum_potential_expectation(
+    fisher = fisher_information(
         psi,
-        x
+        dx
+    )
+
+    qb_expectation = (
+        quantum_potential_expectation(
+            psi,
+            x
+        )
     )
 
     fisher_equivalent = (
@@ -118,15 +166,27 @@ def run_test(name, profile):
         fisher_equivalent
     )
 
-    passed = error < RELATIVE_ERROR_THRESHOLD
+    passed = (
+        error < RELATIVE_ERROR_THRESHOLD
+    )
 
     return {
         "test": name,
-        "quantum_potential_expectation": float(qb_expectation),
-        "fisher_equivalent": float(fisher_equivalent),
-        "relative_error": float(error),
+        "quantum_potential_expectation": float(
+            qb_expectation
+        ),
+        "fisher_equivalent": float(
+            fisher_equivalent
+        ),
+        "relative_error": float(
+            error
+        ),
         "threshold": RELATIVE_ERROR_THRESHOLD,
-        "status": "PASS" if passed else "FAIL",
+        "status": (
+            "PASS"
+            if passed
+            else "FAIL"
+        ),
     }
 
 
@@ -135,7 +195,10 @@ def run_falsification():
 
     for name, profile in PROFILES.items():
         results.append(
-            run_test(name, profile)
+            run_test(
+                name,
+                profile
+            )
         )
 
     overall_pass = all(
@@ -146,11 +209,16 @@ def run_falsification():
     return {
         "stage": "FALSIFICATION",
         "claim": (
-            "<Q_B> = (hbar^2 / 8m) I_F[rho]"
+            "<Q_B> = "
+            "(hbar^2 / 8m) I_F[rho]"
         ),
         "threshold": RELATIVE_ERROR_THRESHOLD,
         "tests": results,
-        "status": "PASS" if overall_pass else "FAIL",
+        "status": (
+            "PASS"
+            if overall_pass
+            else "FAIL"
+        ),
     }
 
 
@@ -162,4 +230,4 @@ if __name__ == "__main__":
             run_falsification(),
             indent=2
         )
-  )
+    )
