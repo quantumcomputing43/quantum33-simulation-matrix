@@ -8,6 +8,8 @@ on:
       - "simulation_matrix/runner.py"
       - "simulation_matrix/matrix.json"
       - "simulation_matrix/__init__.py"
+      - "simulation_matrix/falsification.py"
+      - "requirements.txt"
 
 permissions:
   contents: read
@@ -25,9 +27,17 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
       - name: Run Simulation Matrix
         run: |
           python simulation_matrix/runner.py
+
+      - name: Run Bohmian Fisher Falsification
+        run: |
+          python simulation_matrix/falsification.py
 
       - name: Upload Matrix State
         if: always()
