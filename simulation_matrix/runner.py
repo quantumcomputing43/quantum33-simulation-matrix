@@ -15,10 +15,6 @@ LOGS = ROOT / "logs"
 for directory in (STATE, RESULTS, LOGS):
     directory.mkdir(parents=True, exist_ok=True)
 
-CHECKPOINT = STATE / "checkpoint.json"
-LATEST = RESULTS / "latest.json"
-LOGFILE = LOGS / "matrix.jsonl"
-
 
 def now():
     return datetime.now(timezone.utc).isoformat()
@@ -29,18 +25,37 @@ def load_matrix():
         return json.load(f)
 
 
-def save(state):
-    CHECKPOINT.write_text(
+def checkpoint_path(matrix_version):
+    safe_version = matrix_version.replace("/", "_")
+    return STATE / f"checkpoint_{safe_version}.json"
+
+
+def result_path(matrix_version):
+    safe_version = matrix_version.replace("/", "_")
+    return RESULTS / f"latest_{safe_version}.json"
+
+
+def log_path(matrix_version):
+    safe_version = matrix_version.replace("/", "_")
+    return LOGS / f"matrix_{safe_version}.jsonl"
+
+
+def save(state, matrix_version):
+    checkpoint = checkpoint_path(matrix_version)
+    latest = result_path(matrix_version)
+    logfile = log_path(matrix_version)
+
+    checkpoint.write_text(
         json.dumps(state, indent=2),
         encoding="utf-8"
     )
 
-    LATEST.write_text(
+    latest.write_text(
         json.dumps(state, indent=2),
         encoding="utf-8"
     )
 
-    with LOGFILE.open("a", encoding="utf-8") as f:
+    with logfile.open("a", encoding="utf-8") as f:
         f.write(json.dumps(state) + "\n")
 
 
@@ -97,14 +112,28 @@ def initialize_state(matrix):
 
 
 matrix = load_matrix()
+matrix_version = matrix["matrix_version"]
 
 matrix_valid, matrix_error = validate_matrix(matrix)
+
+CHECKPOINT = checkpoint_path(matrix_version)
 
 if CHECKPOINT.exists():
     state = json.loads(
         CHECKPOINT.read_text(encoding="utf-8")
     )
-    resumed = True
+
+    checkpoint_compatible = (
+        state.get("matrix_version") == matrix_version
+        and state.get("seed") == matrix["seed"]
+        and state.get("scientific_experiment") is False
+    )
+
+    if checkpoint_compatible:
+        resumed = True
+    else:
+        state = initialize_state(matrix)
+        resumed = False
 else:
     state = initialize_state(matrix)
     resumed = False
@@ -118,6 +147,9 @@ checks = {
     "logs_directory": LOGS.exists(),
     "checkpoint_write": False,
     "checkpoint_reload": False,
+    "checkpoint_isolated": (
+        state.get("matrix_version") == matrix_version
+    ),
     "deterministic_seed": state["seed"] == 42,
     "scientific_experiment_disabled": (
         state["scientific_experiment"] is False
@@ -133,7 +165,7 @@ if matrix_error:
     state["matrix_error"] = matrix_error
 
 
-save(state)
+save(state, matrix_version)
 
 checks["checkpoint_write"] = CHECKPOINT.exists()
 
@@ -145,6 +177,7 @@ if CHECKPOINT.exists():
 
     checks["checkpoint_reload"] = (
         reloaded["run_id"] == state["run_id"]
+        and reloaded["matrix_version"] == matrix_version
         and reloaded["seed"] == state["seed"]
     )
 
@@ -183,7 +216,7 @@ state["pipeline"] = stage_results
 state["resumed"] = resumed
 state["timestamp"] = now()
 
-save(state)
+save(state, matrix_version)
 
 print(json.dumps(state, indent=2))
 
