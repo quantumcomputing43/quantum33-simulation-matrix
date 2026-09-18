@@ -28,3 +28,13 @@ jobs:
       - name: Run Simulation Matrix
         run: |
           python simulation_matrix/runner.py
+
+      - name: Upload Matrix State
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: simulation-matrix-${{ github.run_id }}
+          path: |
+            simulation_matrix/state/
+            simulation_matrix/results/
+            simulation_matrix/logs/
