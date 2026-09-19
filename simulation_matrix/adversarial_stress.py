@@ -223,4 +223,4 @@ if __name__ == "__main__":
             run_adversarial_stress(),
             indent=2
         )
-  )
+    )
