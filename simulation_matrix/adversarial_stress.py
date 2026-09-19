@@ -1,19 +1,25 @@
+import json
+from pathlib import Path
+
 import numpy as np
 
 
 HBAR = 1.0
 MASS = 1.0
 
-X_MIN = -12.0
-X_MAX = 12.0
-N_POINTS = 8193
-
 STRESS_THRESHOLD = 0.02
+
+RESULTS_DIR = Path(__file__).resolve().parent / "results"
+RESULT_FILE = RESULTS_DIR / "adversarial_stress.json"
 
 
 def normalize(psi, dx):
     rho = np.abs(psi) ** 2
     norm = np.sum(rho) * dx
+
+    if not np.isfinite(norm) or norm <= 0.0:
+        raise ValueError("Invalid wavefunction normalization.")
+
     return psi / np.sqrt(norm)
 
 
@@ -63,6 +69,15 @@ def quantum_potential_expectation(psi, x):
     return np.sum(
         rho * Q
     ) * dx
+
+
+def fisher_equivalent(psi, dx):
+    return (
+        (HBAR ** 2) / (8.0 * MASS)
+    ) * fisher_information(
+        psi,
+        dx
+    )
 
 
 def relative_error(a, b):
@@ -126,11 +141,11 @@ PROFILES = {
 }
 
 
-def run_test(name, profile):
+def run_profile_stress(name, profile):
     x = np.linspace(
-        X_MIN,
-        X_MAX,
-        N_POINTS
+        -12.0,
+        12.0,
+        8193
     )
 
     dx = x[1] - x[0]
@@ -140,63 +155,195 @@ def run_test(name, profile):
         dx
     )
 
-    fisher = fisher_information(
-        psi,
-        dx
-    )
-
-    qb_expectation = quantum_potential_expectation(
+    qb = quantum_potential_expectation(
         psi,
         x
     )
 
-    fisher_equivalent = (
-        (HBAR ** 2) / (8.0 * MASS)
-    ) * fisher
-
-    error = relative_error(
-        qb_expectation,
-        fisher_equivalent
+    fisher_eq = fisher_equivalent(
+        psi,
+        dx
     )
 
-    passed = (
-        error < STRESS_THRESHOLD
+    error = relative_error(
+        qb,
+        fisher_eq
     )
 
     return {
         "test": name,
-        "quantum_potential_expectation": float(
-            qb_expectation
-        ),
-        "fisher_equivalent": float(
-            fisher_equivalent
-        ),
-        "relative_error": float(
-            error
-        ),
+        "domain": [
+            float(x[0]),
+            float(x[-1])
+        ],
+        "n_points": int(len(x)),
+        "quantum_potential_expectation": float(qb),
+        "fisher_equivalent": float(fisher_eq),
+        "relative_error": float(error),
         "threshold": STRESS_THRESHOLD,
         "status": (
             "PASS"
-            if passed
+            if error < STRESS_THRESHOLD
             else "FAIL"
-        ),
+        )
+    }
+
+
+def run_resolution_stress(profile):
+    resolutions = [
+        2049,
+        4097,
+        8193
+    ]
+
+    values = []
+
+    for n_points in resolutions:
+        x = np.linspace(
+            -12.0,
+            12.0,
+            n_points
+        )
+
+        dx = x[1] - x[0]
+
+        psi = normalize(
+            profile(x),
+            dx
+        )
+
+        qb = quantum_potential_expectation(
+            psi,
+            x
+        )
+
+        fisher_eq = fisher_equivalent(
+            psi,
+            dx
+        )
+
+        error = relative_error(
+            qb,
+            fisher_eq
+        )
+
+        values.append({
+            "n_points": int(n_points),
+            "relative_error": float(error),
+            "status": (
+                "PASS"
+                if error < STRESS_THRESHOLD
+                else "FAIL"
+            )
+        })
+
+    return {
+        "test": "S6_RESOLUTION_STRESS",
+        "resolutions": values,
+        "status": (
+            "PASS"
+            if all(
+                item["status"] == "PASS"
+                for item in values
+            )
+            else "FAIL"
+        )
+    }
+
+
+def run_domain_stress(profile):
+    domains = [
+        8.0,
+        10.0,
+        12.0,
+        16.0
+    ]
+
+    values = []
+
+    for domain in domains:
+        x = np.linspace(
+            -domain,
+            domain,
+            8193
+        )
+
+        dx = x[1] - x[0]
+
+        psi = normalize(
+            profile(x),
+            dx
+        )
+
+        qb = quantum_potential_expectation(
+            psi,
+            x
+        )
+
+        fisher_eq = fisher_equivalent(
+            psi,
+            dx
+        )
+
+        error = relative_error(
+            qb,
+            fisher_eq
+        )
+
+        values.append({
+            "domain": float(domain),
+            "relative_error": float(error),
+            "status": (
+                "PASS"
+                if error < STRESS_THRESHOLD
+                else "FAIL"
+            )
+        })
+
+    return {
+        "test": "S7_DOMAIN_STRESS",
+        "domains": values,
+        "status": (
+            "PASS"
+            if all(
+                item["status"] == "PASS"
+                for item in values
+            )
+            else "FAIL"
+        )
     }
 
 
 def run_adversarial_stress():
-    results = []
+    profile_results = []
 
     for name, profile in PROFILES.items():
-        results.append(
-            run_test(
+        profile_results.append(
+            run_profile_stress(
                 name,
                 profile
             )
         )
 
+    resolution_result = run_resolution_stress(
+        profile_gaussian
+    )
+
+    domain_result = run_domain_stress(
+        profile_gaussian
+    )
+
+    all_results = (
+        profile_results
+        + [
+            resolution_result,
+            domain_result
+        ]
+    )
+
     overall_pass = all(
         result["status"] == "PASS"
-        for result in results
+        for result in all_results
     )
 
     return {
@@ -206,21 +353,41 @@ def run_adversarial_stress():
             "(hbar^2 / 8m) I_F[rho]"
         ),
         "threshold": STRESS_THRESHOLD,
-        "tests": results,
+        "tests": all_results,
         "status": (
             "PASS"
             if overall_pass
             else "FAIL"
-        ),
+        )
     }
 
 
+def save_result(result):
+    RESULTS_DIR.mkdir(
+        parents=True,
+        exist_ok=True
+    )
+
+    RESULT_FILE.write_text(
+        json.dumps(
+            result,
+            indent=2
+        ),
+        encoding="utf-8"
+    )
+
+
 if __name__ == "__main__":
-    import json
+    result = run_adversarial_stress()
+
+    save_result(result)
 
     print(
         json.dumps(
-            run_adversarial_stress(),
+            result,
             indent=2
         )
     )
+
+    if result["status"] != "PASS":
+        raise SystemExit(1)
