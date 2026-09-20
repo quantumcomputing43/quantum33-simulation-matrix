@@ -10,6 +10,8 @@ on:
       - "simulation_matrix/__init__.py"
       - "simulation_matrix/falsification.py"
       - "simulation_matrix/adversarial_stress.py"
+      - "simulation_matrix/numerics.py"
+      - "tests/**"
       - "requirements.txt"
 
 permissions:
@@ -34,15 +36,19 @@ jobs:
 
       - name: Run Simulation Matrix
         run: |
-          python simulation_matrix/runner.py
+          python -m simulation_matrix.runner
 
       - name: Run Bohmian Fisher Falsification
         run: |
-          python simulation_matrix/falsification.py
+          python -m simulation_matrix.falsification
 
       - name: Run Adversarial Stress
         run: |
-          python simulation_matrix/adversarial_stress.py
+          python -m simulation_matrix.adversarial_stress
+
+      - name: Run unit tests
+        run: |
+          python -m unittest discover -s tests
 
       - name: Upload Matrix State
         if: always()
