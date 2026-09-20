@@ -26,3 +26,7 @@ Scientific execution is intentionally blocked while the observable derivation, o
 The observable derivation contract is recorded in simulation_matrix/cases/bhd_observable_derivation.md and explicitly forbids result-driven observable selection.
 
 This is deliberate: the protocol must be complete before the experiment can run.
+
+## BHD Pre-Experiment Validation
+
+The repository now contains a deterministic N=4 TFIM/QFI implementation under `simulation_matrix/cases/bhd_preexperiment.py`. It validates the previously declared mathematical benchmark points at h=0.1 and h=0.01. This is an implementation/model-consistency check only; it does **not** constitute hidden-sector evidence and does not open the BHD scientific execution gate.
