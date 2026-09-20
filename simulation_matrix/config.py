@@ -31,6 +31,21 @@ def load_matrix(path:Path)->dict[str,Any]:
     validate_matrix(data)
     return data
 
+def load_project_manifest(path:Path)->dict[str,Any]:
+    with path.open("r",encoding="utf-8") as f:
+        data=json.load(f,object_pairs_hook=_reject_duplicates)
+    required={"project_id","case_id","protocol_version","execution_enabled"}
+    missing=required-data.keys()
+    if missing: raise ConfigError(f"project manifest missing fields: {sorted(missing)}")
+    validate_project_id(data["project_id"])
+    if not isinstance(data["case_id"],str) or not data["case_id"]:
+        raise ConfigError("project manifest case_id must be non-empty")
+    if not isinstance(data["protocol_version"],str) or not data["protocol_version"]:
+        raise ConfigError("project manifest protocol_version must be non-empty")
+    if data["execution_enabled"] is not True:
+        raise ConfigError(f"project {data['project_id']} is not enabled for execution")
+    return data
+
 def validate_matrix(data:dict[str,Any])->None:
     missing=REQUIRED_TOP-data.keys()
     if missing: raise ConfigError(f"missing fields: {sorted(missing)}")
