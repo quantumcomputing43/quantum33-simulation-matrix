@@ -1,5 +1,5 @@
 {
-  "matrix_version": "V2.0",
+  "matrix_version": "V2.1",
   "case_id": "synthetic.contract",
   "seed": 42,
   "scientific_experiment": false,
@@ -9,7 +9,8 @@
     "require_checkpoint": true,
     "require_result_record": true,
     "require_log_record": true,
-    "case_adapter_required": true
+    "case_adapter_required": true,
+    "explicit_project_id_required": true
   },
   "pipeline": [
     {"stage":"FALSIFICATION","enabled":true,"purpose":"Attempt to falsify the declared case contract.","pass_condition":"No predefined failure condition is triggered."},
@@ -24,11 +25,13 @@
     "no_result_based_stage_removal": true,
     "record_all_failures": true,
     "separate_infrastructure_failure_from_scientific_failure": true,
-    "case_specific_science_must_not_modify_core_engine": true
+    "case_specific_science_must_not_modify_core_engine": true,
+    "project_isolation_required": true,
+    "explicit_project_id_required": true
   },
   "output_contract": {
-    "checkpoint": "state/checkpoint_V2.0.json",
-    "latest_result": "results/latest_V2.0.json",
-    "event_log": "logs/matrix_V2.0.jsonl"
+    "checkpoint": "state/{project_id}/checkpoint_V2.1.json",
+    "latest_result": "results/{project_id}/latest_V2.1.json",
+    "event_log": "logs/{project_id}/matrix_V2.1.jsonl"
   }
 }
