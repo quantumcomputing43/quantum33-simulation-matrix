@@ -13,11 +13,20 @@ class MatrixTests(unittest.TestCase):
         src=Path(__file__).parents[1]/"simulation_matrix"/"matrix.json"
         (root/"matrix.json").write_text(src.read_text(encoding="utf-8"),encoding="utf-8")
 
+    def _write_manifest(self,root,project_id):
+        (root/f"{project_id}.json").write_text(json.dumps({
+            "project_id":project_id,
+            "case_id":"synthetic.contract",
+            "protocol_version":"1.0",
+            "execution_enabled":True,
+        }),encoding="utf-8")
+
     def test_pipeline_result_and_resume_is_project_local(self):
         with tempfile.TemporaryDirectory() as d:
             root=Path(d); self._copy_matrix(root)
-            first=run(root,project_id="PROJECT_A",matrix_path=root/"matrix.json")
-            second=run(root,project_id="PROJECT_A",matrix_path=root/"matrix.json")
+            self._write_manifest(root,"PROJECT_A")
+            first=run(root,project_id="PROJECT_A",matrix_path=root/"matrix.json",project_manifest_path=root/"PROJECT_A.json")
+            second=run(root,project_id="PROJECT_A",matrix_path=root/"matrix.json",project_manifest_path=root/"PROJECT_A.json")
             self.assertEqual(first["status"],"RESULT")
             self.assertTrue(second["resumed"])
             self.assertEqual(second["project_id"],"PROJECT_A")
@@ -25,8 +34,10 @@ class MatrixTests(unittest.TestCase):
     def test_two_projects_do_not_share_checkpoint_or_log(self):
         with tempfile.TemporaryDirectory() as d:
             root=Path(d); self._copy_matrix(root)
-            a=run(root,project_id="BHD",matrix_path=root/"matrix.json")
-            b=run(root,project_id="miRNA21",matrix_path=root/"matrix.json")
+            self._write_manifest(root,"BHD")
+            self._write_manifest(root,"miRNA21")
+            a=run(root,project_id="BHD",matrix_path=root/"matrix.json",project_manifest_path=root/"BHD.json")
+            b=run(root,project_id="miRNA21",matrix_path=root/"matrix.json",project_manifest_path=root/"miRNA21.json")
             self.assertEqual(a["status"],"RESULT")
             self.assertEqual(b["status"],"RESULT")
             self.assertNotEqual(a["execution_identity"],b["execution_identity"])
@@ -45,11 +56,12 @@ class MatrixTests(unittest.TestCase):
     def test_incompatible_checkpoint_preserved(self):
         with tempfile.TemporaryDirectory() as d:
             root=Path(d); self._copy_matrix(root)
-            run(root,project_id="PROJECT_A",matrix_path=root/"matrix.json")
+            self._write_manifest(root,"PROJECT_A")
+            run(root,project_id="PROJECT_A",matrix_path=root/"matrix.json",project_manifest_path=root/"PROJECT_A.json")
             p=root/"state"/"PROJECT_A"/"checkpoint_V2.1.json"
             saved=json.loads(p.read_text(encoding="utf-8")); saved["execution_identity"]="incompatible"
             p.write_text(json.dumps(saved),encoding="utf-8")
-            with self.assertRaises(RuntimeError): run(root,project_id="PROJECT_A",matrix_path=root/"matrix.json")
+            with self.assertRaises(RuntimeError): run(root,project_id="PROJECT_A",matrix_path=root/"matrix.json",project_manifest_path=root/"PROJECT_A.json")
             self.assertEqual(json.loads(p.read_text(encoding="utf-8"))["execution_identity"],"incompatible")
 
 if __name__=="__main__": unittest.main()
