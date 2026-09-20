@@ -2,8 +2,21 @@ name: Simulation Matrix
 
 on:
   workflow_dispatch:
+    inputs:
+      project_id:
+        description: "Explicit project namespace"
+        required: true
+        default: "GENERIC_SYNTHETIC"
+        type: string
   push:
     branches: [main, "github/**"]
+    paths:
+      - "simulation_matrix/**"
+      - "tests/**"
+      - ".github/workflows/simulation-matrix.yml"
+      - "requirements.txt"
+  pull_request:
+    branches: [main]
     paths:
       - "simulation_matrix/**"
       - "tests/**"
@@ -12,6 +25,10 @@ on:
 
 permissions:
   contents: read
+
+concurrency:
+  group: simulation-matrix-${{ github.ref }}-${{ inputs.project_id || 'GENERIC_SYNTHETIC' }}
+  cancel-in-progress: false
 
 jobs:
   matrix:
@@ -28,13 +45,15 @@ jobs:
       - name: Run contract tests
         run: python -m unittest discover -s tests -v
       - name: Run generic matrix
-        run: python -m simulation_matrix.runner
+        env:
+          PROJECT_ID: ${{ inputs.project_id || 'GENERIC_SYNTHETIC' }}
+        run: python -m simulation_matrix.runner --project-id "$PROJECT_ID"
       - name: Upload matrix artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: simulation-matrix-${{ github.run_id }}
+          name: simulation-matrix-${{ github.run_id }}-${{ inputs.project_id || 'GENERIC_SYNTHETIC' }}
           path: |
-            simulation_matrix/state/
-            simulation_matrix/results/
-            simulation_matrix/logs/
+            state/
+            results/
+            logs/
