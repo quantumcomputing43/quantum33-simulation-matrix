@@ -12,7 +12,8 @@
     "boundary_information": "rho_boundary",
     "information_coupling": "g_info",
     "spacetime_coupling": "g_spacetime",
-    "observable_signature": "TBD"
+    "observable_signature": "TBD",
+    "forward_model_contract": "simulation_matrix/cases/bhd_forward_model_contract.md"
   },
   "pre_experiment_audit": {
     "primary_observable": "TBD",
@@ -30,7 +31,7 @@
     "exclusion_rule": "TBD",
     "missing_or_invalid_output_rule": "TBD",
     "provenance": {
-      "equations": "BHD boundary-information mapping and g_info/g_spacetime separation; exact forward equation TBD",
+      "equations": "TBD",
       "assumptions": "Only the declared H0/H1/H2 roles are fixed at this stage; physical interpretation of epsilon and the observable is not yet assumed.",
       "external_baselines": "TBD"
     }
