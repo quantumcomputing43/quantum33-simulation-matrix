@@ -24,7 +24,7 @@ class BHDProtocolTests(unittest.TestCase):
     def test_protocol_identity_is_explicit(self):
         protocol = load_protocol(SOURCE)
         self.assertEqual(protocol["case_id"], "bhd.hidden_sector")
-        self.assertEqual(protocol["protocol_version"], "BHD-P1.2")
+        self.assertEqual(protocol["protocol_version"], "BHD-P1.3")
 
     def test_duplicate_json_keys_are_rejected(self):
         raw = SOURCE.read_text(encoding="utf-8").replace(
@@ -70,3 +70,9 @@ class BHDProtocolTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+    def test_observable_candidate_set_does_not_open_gate(self):
+        protocol = load_protocol(SOURCE)
+        self.assertEqual(protocol["observable_selection"]["status"], "CANDIDATE_SET_NOT_SELECTED")
+        self.assertEqual(protocol["model_scope"]["observable_signature"], "TBD")
+        self.assertFalse(execution_ready(protocol))
