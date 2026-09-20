@@ -1,0 +1,160 @@
+{
+  "protocol_version": "BHD-P1.3",
+  "case_id": "bhd.hidden_sector",
+  "scientific_experiment": false,
+  "status": "PROTOCOL_DRAFT",
+  "hypotheses": {
+    "H0": "epsilon = 0",
+    "H1": "epsilon != 0",
+    "H2": "classical nuisance model can explain the observed signature"
+  },
+  "model_scope": {
+    "boundary_information": "rho_boundary",
+    "information_coupling": "g_info",
+    "spacetime_coupling": "g_spacetime",
+    "observable_signature": "TBD",
+    "forward_model_contract": "simulation_matrix/cases/bhd_forward_model_contract.md"
+  },
+  "pre_experiment_audit": {
+    "primary_observable": "TBD",
+    "measurement_definition": "TBD",
+    "null_model_definition": "TBD",
+    "classical_nuisance_model": "TBD",
+    "parameter_domain": "TBD",
+    "simulation_domain": "TBD",
+    "units_and_normalization": "TBD",
+    "data_generation_rule": "TBD",
+    "random_seed_policy": 42,
+    "independent_repetition_policy": "TBD",
+    "multiple_comparison_policy": "TBD",
+    "stopping_rule": "TBD",
+    "exclusion_rule": "TBD",
+    "missing_or_invalid_output_rule": "TBD",
+    "provenance": {
+      "equations": "TBD",
+      "assumptions": "Only the declared H0/H1/H2 roles are fixed at this stage; physical interpretation of epsilon and the observable is not yet assumed.",
+      "external_baselines": "TBD"
+    }
+  },
+  "stages": {
+    "FALSIFICATION": {
+      "criterion": "TBD",
+      "pre_registered": false,
+      "required_inputs": [
+        "primary_observable",
+        "null_model_definition",
+        "falsification_threshold"
+      ],
+      "registered_inputs": {
+        "primary_observable": "TBD",
+        "null_model_definition": "TBD",
+        "falsification_threshold": "TBD"
+      }
+    },
+    "ADVERSARIAL_STRESS": {
+      "criterion": "TBD",
+      "pre_registered": false,
+      "required_inputs": [
+        "adversarial_suite",
+        "allowed_perturbation_domain",
+        "failure_threshold"
+      ],
+      "registered_inputs": {
+        "adversarial_suite": "TBD",
+        "allowed_perturbation_domain": "TBD",
+        "failure_threshold": "TBD"
+      }
+    },
+    "IDENTIFIABILITY": {
+      "criterion": "TBD",
+      "pre_registered": false,
+      "required_inputs": [
+        "target_parameters",
+        "identifiability_metric",
+        "degeneracy_rule"
+      ],
+      "registered_inputs": {
+        "target_parameters": "TBD",
+        "identifiability_metric": "TBD",
+        "degeneracy_rule": "TBD"
+      }
+    },
+    "ROBUSTNESS": {
+      "criterion": "TBD",
+      "pre_registered": false,
+      "required_inputs": [
+        "repetition_policy",
+        "stability_metric",
+        "stability_threshold"
+      ],
+      "registered_inputs": {
+        "repetition_policy": "TBD",
+        "stability_metric": "TBD",
+        "stability_threshold": "TBD"
+      }
+    },
+    "SURVIVOR_CHECK": {
+      "criterion": "TBD",
+      "pre_registered": false,
+      "required_inputs": [
+        "all_stage_pass",
+        "audit_complete",
+        "no_unresolved_critical_failure"
+      ],
+      "registered_inputs": {
+        "all_stage_pass": "TBD",
+        "audit_complete": "TBD",
+        "no_unresolved_critical_failure": "TBD"
+      }
+    }
+  },
+  "failure_policy": {
+    "post_hoc_threshold_change": "FORBIDDEN",
+    "post_hoc_hypothesis_change": "FORBIDDEN",
+    "result_based_stage_removal": "FORBIDDEN",
+    "unreported_failed_run": "FORBIDDEN",
+    "scientific_claim_from_infrastructure_pass": "FORBIDDEN",
+    "ambiguous_unit_or_normalization": "BLOCK",
+    "uncontrolled_nuisance_parameter": "BLOCK",
+    "circular_metric_definition": "BLOCK",
+    "data_or_result_leakage": "BLOCK"
+  },
+  "execution_gate": {
+    "allow_scientific_execution": false,
+    "reason": "Scientific execution remains blocked until one primary observable is selected from the candidate set by a model-derived rule, then the null/nuisance models, domains, metrics, thresholds, stopping/exclusion rules, provenance, and every required stage input are explicitly pre-registered."
+  },
+  "observable_selection": {
+    "status": "CANDIDATE_SET_NOT_SELECTED",
+    "selection_rule": "Select exactly one primary observable only after deriving it from the declared BHD forward model; it must be computable under H0/H1/H2, have fixed units/normalization, and not use fitted information from the same test outcome.",
+    "candidates": [
+      {
+        "id": "OBS-A",
+        "name": "direct_forward_model_signature",
+        "definition": "Primary measured/model-output statistic O whose predicted distribution changes under epsilon while remaining defined under H0, H1, and H2.",
+        "role": "primary_candidate",
+        "status": "REQUIRES_FORWARD_MODEL"
+      },
+      {
+        "id": "OBS-B",
+        "name": "nuisance_orthogonal_signature",
+        "definition": "A pre-defined component of O orthogonal to the declared classical nuisance tangent space.",
+        "role": "secondary_candidate",
+        "status": "REQUIRES_NUISANCE_MODEL"
+      },
+      {
+        "id": "OBS-C",
+        "name": "conditional_information_fraction",
+        "definition": "R2 = I(epsilon|eta) / I(epsilon,epsilon), where eta denotes declared nuisance parameters.",
+        "role": "diagnostic_identifiability_metric",
+        "status": "NOT_PRIMARY_OBSERVABLE"
+      }
+    ],
+    "guardrails": [
+      "Do not select OBS-C as evidence of a physical hidden-sector signature; it is an identifiability diagnostic.",
+      "Do not choose the candidate based on simulated results.",
+      "Do not define a threshold before the observable and null/nuisance models are fixed.",
+      "A candidate that cannot be generated independently under H0 must be rejected."
+    ],
+    "derivation_contract": "simulation_matrix/cases/bhd_observable_derivation.md"
+  }
+}

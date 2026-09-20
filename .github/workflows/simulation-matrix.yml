@@ -2,8 +2,10 @@ name: Simulation Matrix
 
 on:
   workflow_dispatch:
+  pull_request:
+  pull_request_target:
   push:
-    branches: [main, "github/**"]
+    branches: [main]
     paths:
       - "simulation_matrix/**"
       - "tests/**"
@@ -14,7 +16,7 @@ permissions:
   contents: read
 
 jobs:
-  matrix:
+  verify:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -25,8 +27,12 @@ jobs:
           python-version: "3.11"
       - name: Install dependencies
         run: python -m pip install -r requirements.txt
-      - name: Run contract tests
+      - name: Run all contract and matrix tests
         run: python -m unittest discover -s tests -v
+      - name: Run master strategy verification
+        run: python -m simulation_matrix.cases.bhd_master_verify
+      - name: Run unified BHD master pre-experiment audit
+        run: python -m simulation_matrix.cases.bhd_master_runner
       - name: Run generic matrix
         run: python -m simulation_matrix.runner
       - name: Upload matrix artifacts
