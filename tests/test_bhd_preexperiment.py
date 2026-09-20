@@ -18,11 +18,12 @@ class BHDPreExperimentTests(unittest.TestCase):
             self.assertTrue(np.allclose(g, g.T, atol=1e-10))
             self.assertGreaterEqual(float(np.min(np.linalg.eigvalsh(g))), -1e-9)
 
-    def test_finite_difference_convergence_is_stable(self):
+    def test_adaptive_finite_difference_selection(self):
         for h in H_VALUES:
             row = convergence_row(h)
             self.assertTrue(row["numerically_stable"])
-            self.assertEqual(set(row["metrics"]), {f"{e:.0e}" for e in EPS_VALUES})
+            self.assertIn(row["selected_eps"], EPS_VALUES)
+            self.assertTrue(row["selected_metric_check"]["positive_semidefinite"])
 
     def test_historical_benchmark_is_not_a_pass_target(self):
         for h in H_VALUES:
