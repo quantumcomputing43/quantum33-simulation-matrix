@@ -153,6 +153,7 @@
       "Do not choose the candidate based on simulated results.",
       "Do not define a threshold before the observable and null/nuisance models are fixed.",
       "A candidate that cannot be generated independently under H0 must be rejected."
-    ]
+    ],
+    "derivation_contract": "simulation_matrix/cases/bhd_observable_derivation.md"
   }
 }
