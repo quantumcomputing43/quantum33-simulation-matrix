@@ -2,14 +2,12 @@ name: Simulation Matrix
 
 on:
   workflow_dispatch:
-
   push:
+    branches: [main, "github/**"]
     paths:
-      - "simulation_matrix/runner.py"
-      - "simulation_matrix/matrix.json"
-      - "simulation_matrix/__init__.py"
-      - "simulation_matrix/falsification.py"
-      - "simulation_matrix/adversarial_stress.py"
+      - "simulation_matrix/**"
+      - "tests/**"
+      - ".github/workflows/simulation-matrix.yml"
       - "requirements.txt"
 
 permissions:
@@ -18,33 +16,20 @@ permissions:
 jobs:
   matrix:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-
       - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-
-      - name: Run Simulation Matrix
-        run: |
-          python simulation_matrix/runner.py
-
-      - name: Run Bohmian Fisher Falsification
-        run: |
-          python simulation_matrix/falsification.py
-
-      - name: Run Adversarial Stress
-        run: |
-          python simulation_matrix/adversarial_stress.py
-
-      - name: Upload Matrix State
+        run: python -m pip install -r requirements.txt
+      - name: Run contract tests
+        run: python -m unittest discover -s tests -v
+      - name: Run generic matrix
+        run: python -m simulation_matrix.runner
+      - name: Upload matrix artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
