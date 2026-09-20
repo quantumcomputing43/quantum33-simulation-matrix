@@ -3,7 +3,7 @@ from __future__ import annotations
 import hashlib,json
 from datetime import datetime,timezone
 from pathlib import Path
-from simulation_matrix.config import ConfigError,load_matrix,validate_project_id
+from simulation_matrix.config import ConfigError,load_matrix,load_project_manifest,validate_project_id
 from simulation_matrix.contracts import INFRASTRUCTURE_FAILURE,IMPLEMENTATION_FAILURE,METHOD_FAILURE,SCIENTIFIC_FAILURE,RESULT
 from simulation_matrix.cases.synthetic import load_case
 
@@ -35,11 +35,19 @@ def _output_path(root:Path,template:str,project_id:str)->Path:
         raise ConfigError(f"output path escapes root: {template}")
     return path
 
-def run(root:Path,*,project_id:str,matrix_path:Path|None=None)->dict:
+def run(root:Path,*,project_id:str,matrix_path:Path|None=None,project_manifest_path:Path|None=None)->dict:
     validate_project_id(project_id)
     matrix_path=matrix_path or (root/"simulation_matrix"/"matrix.json")
+    project_manifest_path=project_manifest_path or (root/"simulation_matrix"/"projects"/f"{project_id}.json")
     matrix=load_matrix(matrix_path)
+    manifest=load_project_manifest(project_manifest_path)
+    if manifest["project_id"]!=project_id:
+        raise RuntimeError("INFRASTRUCTURE_FAILURE: project manifest identity mismatch")
+    if manifest["case_id"]!=matrix["case_id"]:
+        raise RuntimeError("INFRASTRUCTURE_FAILURE: project manifest case_id mismatch")
     adapter=load_case(matrix["case_id"])
+    if manifest["protocol_version"]!=adapter.protocol_version:
+        raise RuntimeError("INFRASTRUCTURE_FAILURE: project manifest protocol_version mismatch")
     identity=_identity(matrix,adapter,project_id)
     out=matrix["output_contract"]
     checkpoint=_output_path(root,out["checkpoint"],project_id)
