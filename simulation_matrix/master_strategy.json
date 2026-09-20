@@ -1,0 +1,85 @@
+{
+  "strategy_version": "QUANTUM33-MASTER-V1",
+  "seed": 42,
+  "principle": "Experiment validity precedes result significance.",
+  "mission": "Route all future BHD and miRNA-21 scientific operations through one auditable Simulation Matrix orchestration layer.",
+  "execution_mode": "AUTOMATED_AUDIT_FIRST",
+  "maximum_total_simulation_runs": 1000000,
+  "default_batch_size": 10000,
+  "checkpoint_every_batch": true,
+  "never_change_protocol_from_results": true,
+  "record_all_failures": true,
+  "result_classes": [
+    "INFRASTRUCTURE_FAILURE",
+    "IMPLEMENTATION_FAILURE",
+    "INPUT_FAILURE",
+    "METHOD_FAILURE",
+    "SCIENTIFIC_FAILURE",
+    "RESULT"
+  ],
+  "universal_flow": [
+    "LOAD_CONTEXT",
+    "VERIFY_PROVENANCE",
+    "VERIFY_DATA_AND_UNITS",
+    "VERIFY_GENERATIVE_MODEL",
+    "VERIFY_CONTROLS_AND_NULLS",
+    "VERIFY_METRIC_AND_ENDPOINT",
+    "CHECK_LEAKAGE_AND_CIRCULARITY",
+    "RUN_NUMERICAL_VALIDATION",
+    "RUN_ADVERSARIAL_STRESS",
+    "RUN_IDENTIFIABILITY",
+    "RUN_ROBUSTNESS",
+    "RUN_FALSIFICATION",
+    "RUN_SURVIVOR_CHECK",
+    "RUN_SCIENTIFIC_BATCHES_ONLY_IF_GATE_OPEN",
+    "CHECKPOINT",
+    "FINAL_AUDIT_REPORT"
+  ],
+  "case_pipelines": {
+    "BHD": {
+      "case_id": "bhd.hidden_sector",
+      "adapter": "simulation_matrix.cases.bhd_master_runner",
+      "current_gate": "CLOSED",
+      "gate_rule": "No scientific batch until primary observable and independent H0/H1/H2 generation contracts are complete and audited."
+    },
+    "miRNA21": {
+      "case_id": "mirna21.quantum33",
+      "adapter": "simulation_matrix.cases.mirna21_master_runner",
+      "current_gate": "INPUT_AND_METHOD_AUDIT_REQUIRED",
+      "frozen_primary_feature": "hsa-mir-21.MIMAT0000076",
+      "analysis_family": [
+        "Langmuir_single_binding",
+        "NV_dipolar_transduction",
+        "FIM_identifiability",
+        "survival_validation",
+        "expression_validation"
+      ],
+      "controls_required": [
+        "Full",
+        "PCA25",
+        "R3_miR21_only",
+        "frozen_R8D",
+        "randomized_shuffled_R8D"
+      ],
+      "leakage_rule": "No preprocessing, feature selection, model fitting, threshold selection, or control selection may use held-out outcomes."
+    }
+  },
+  "stop_rules": [
+    "STOP_ON_INFRASTRUCTURE_FAILURE",
+    "STOP_ON_UNRESOLVED_IMPLEMENTATION_FAILURE",
+    "STOP_CASE_ON_MISSING_REQUIRED_INPUT",
+    "STOP_SCIENTIFIC_EXECUTION_WHEN_GATE_CLOSED",
+    "STOP_ON_NULL_OR_CONTROL_FAILURE",
+    "STOP_ON_LEAKAGE",
+    "STOP_ON_CIRCULAR_ENDPOINT",
+    "STOP_ON_UNREGISTERED_THRESHOLD"
+  ],
+  "promotion_rule": "A scientific RESULT requires passing provenance, implementation, method, null/control, leakage, identifiability, robustness, falsification, and survivor checks.",
+  "audit_invariant": "The orchestrator may execute registered operations and diagnose failures, but may not invent missing data, parameters, observables, thresholds, controls, or scientific conclusions.",
+  "output_contract": {
+    "master_report": "results/quantum33_master_report.json",
+    "case_reports": "results/",
+    "checkpoint": "state/master_checkpoint.json",
+    "event_log": "logs/master_event_log.jsonl"
+  }
+}
