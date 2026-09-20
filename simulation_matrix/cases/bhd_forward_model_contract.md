@@ -1,38 +1,43 @@
 # BHD Forward-Model Derivation Contract
 
-Status: BLOCKED_PENDING_VERIFIED_EQUATIONS
+Status: VERIFIED_BASELINE_REQUIRES_OBSERVABLE_DERIVATION
 
-## Fixed model boundary
+## Verified prior baseline
 
-- Boundary information: rho_boundary
-- Information coupling: g_info
-- Spacetime coupling: g_spacetime
-- Hypotheses: H0 (epsilon = 0), H1 (epsilon != 0), H2 (classical nuisance explanation)
+The prior BHD formulation establishes the information-geometric chain
 
-## Rule
+\[
+\rho_{\partial}(t) \rightarrow F_Q(t) \rightarrow g^{info}_{\mu\nu}
+\]
 
-No primary observable may be promoted and no scientific simulation may execute until the exact forward equation mapping declared inputs to an observable is explicitly verified and registered.
+with
 
-## Required verified record
+\[
+g^{info}_{\mu\nu}=\alpha F^Q_{\mu\nu}.
+\]
 
-1. Exact forward equation(s), with symbols and domains.
-2. Definition of every state/input variable.
-3. Definition and units of the observable output.
-4. Independent generation rules under H0, H1, and H2.
-5. Classical nuisance parameters and their allowed domain.
-6. Normalization and unit convention.
-7. Parameter and simulation domains.
-8. Independent-null generation rule.
-9. Falsification statistic and pre-registered threshold.
+This is an information metric. It is **not** identified with the spacetime metric by assumption:
 
-## Anti-circularity constraints
+\[
+g^{info}_{\mu\nu}\neq g^{spacetime}_{\mu\nu}
+\]
 
-- The observable cannot be selected from simulation outcomes.
-- The same test outcome cannot be used to fit the quantity being tested.
-- H2 must generate the same observable without inserting epsilon by construction.
-- H0 must be independently generatable.
-- Identifiability diagnostics such as R2 are not physical evidence of a hidden-sector signature.
+unless an explicit boundary map \(\mathcal B\) is independently established.
 
-## Current decision
+## Fixed hypothesis boundary
 
-The exact BHD forward equation is not reproduced or invented here. It must be recovered from the verified prior BHD derivation before this contract can be completed. Until then, the Simulation Matrix must remain scientifically blocked.
+- H0: \(\epsilon=0\)
+- H1: \(\epsilon\neq0\)
+- H2: a classical nuisance model explains the observable without requiring the hidden-sector term.
+
+## Critical restriction
+
+The previously proposed backreaction form
+\[
+g^{BHD}=g^{(0)}+\epsilon(\eta)\Delta g
+\]
+is **not verified** and must not be used as the forward model.
+
+## Next derivation target
+
+Derive a computable observable from the verified information-metric chain, while keeping \(g^{info}\) and \(g^{spacetime}\) separate. No scientific simulation is executable until that observable and its H0/H1/H2 generation rules are registered.
