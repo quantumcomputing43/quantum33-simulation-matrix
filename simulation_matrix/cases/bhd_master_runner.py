@@ -121,7 +121,7 @@ def run() -> dict:
     status = (
         "READY_FOR_SCIENTIFIC_EXECUTION"
         if gate_open
-        else "PREEXPERIMENT_AUDIT_COMPLETE_GATE_CLOSED"
+        else "PREEXPERIMENT_VALIDATION_COMPLETE_GATE_CLOSED"
     )
 
     report = {
