@@ -1,0 +1,7 @@
+{
+  "project_id": "GENERIC_SYNTHETIC",
+  "case_id": "synthetic.contract",
+  "protocol_version": "1.0",
+  "execution_enabled": true,
+  "purpose": "Infrastructure-only contract fixture; not a scientific project."
+}
