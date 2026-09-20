@@ -58,7 +58,7 @@ def load_protocol(path: Path) -> dict:
     except (json.JSONDecodeError, BHDProtocolIncomplete) as exc:
         raise BHDProtocolIncomplete(f"Invalid BHD protocol JSON: {exc}") from exc
 
-    if data.get("protocol_version") != "BHD-P1.2":
+    if data.get("protocol_version") != "BHD-P1.3":
         raise BHDProtocolIncomplete("Unsupported BHD protocol version.")
     if data.get("case_id") != "bhd.hidden_sector":
         raise BHDProtocolIncomplete("Unexpected BHD case id.")
