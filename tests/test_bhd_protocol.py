@@ -77,3 +77,17 @@ class BHDProtocolTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+import unittest
+from simulation_matrix.cases.bhd import _is_blocked
+
+class BHDGateTests(unittest.TestCase):
+    def test_embedded_tbd_is_blocked(self):
+        self.assertTrue(_is_blocked("exact forward equation TBD"))
+        self.assertTrue(_is_blocked("PENDING_VERIFIED_EQUATIONS"))
+
+    def test_clean_registered_value_is_allowed(self):
+        self.assertFalse(_is_blocked("verified equation: O = F(inputs)"))
+
+if __name__ == "__main__":
+    unittest.main()
