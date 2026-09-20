@@ -71,6 +71,7 @@ class BHDProtocolTests(unittest.TestCase):
     def test_observable_candidate_set_does_not_open_gate(self):
         protocol = load_protocol(SOURCE)
         self.assertEqual(protocol["observable_selection"]["status"], "CANDIDATE_SET_NOT_SELECTED")
+        self.assertEqual(protocol["observable_selection"]["derivation_contract"], "simulation_matrix/cases/bhd_observable_derivation.md")
         self.assertEqual(protocol["model_scope"]["observable_signature"], "TBD")
         self.assertFalse(execution_ready(protocol))
 
