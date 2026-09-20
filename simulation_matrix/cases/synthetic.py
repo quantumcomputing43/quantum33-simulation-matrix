@@ -8,11 +8,21 @@ class SyntheticAdapter:
     protocol_version="1.0"
 
     def run_stage(self,stage:str,*,seed:int,context:dict)->StageResult:
-        payload=json.dumps({"case":self.case_id,"stage":stage,"seed":seed},sort_keys=True).encode()
+        payload=json.dumps({
+            "project_id":context["project_id"],
+            "case":self.case_id,
+            "stage":stage,
+            "seed":seed,
+        },sort_keys=True).encode()
         digest=hashlib.sha256(payload).hexdigest()
         return StageResult(stage=stage,status="PASS",passed=True,details={
-            "fixture":True,"deterministic_digest":digest,"scientific_experiment":False
+            "fixture":True,
+            "deterministic_digest":digest,
+            "scientific_experiment":False,
+            "project_id":context["project_id"],
         })
 
-def load_case()->SyntheticAdapter:
+def load_case(case_id:str)->SyntheticAdapter:
+    if case_id != SyntheticAdapter.case_id:
+        raise ValueError(f"no adapter registered for case_id={case_id}")
     return SyntheticAdapter()
