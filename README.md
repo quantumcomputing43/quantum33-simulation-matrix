@@ -1,29 +1,26 @@
 # Quantum33 Simulation Matrix
 
-Generic deterministic scientific-validation infrastructure for Quantum33 Research.
+Independent simulation and falsification infrastructure for Quantum33 research.
 
-## Core rule
+## Scientific rule
 
 **Experiment validity precedes result significance.**
 
-The core engine is case-independent. Scientific cases are supplied through explicit adapters; case-specific equations and assumptions must not be embedded in the engine.
+## Architecture
 
-## Pipeline
+The core engine is generic. Scientific hypotheses are introduced through case adapters and protocol contracts rather than by modifying the engine.
 
-1. FALSIFICATION
-2. ADVERSARIAL_STRESS
-3. IDENTIFIABILITY
-4. ROBUSTNESS
-5. SURVIVOR_CHECK
+## BHD Phase 1
 
-The current synthetic adapter is an infrastructure fixture only. It is not a scientific experiment and establishes no physical claim.
+Phase 1 defines the boundary of the BHD scientific case without running a scientific experiment.
 
-## Status taxonomy
+The BHD protocol records:
+- case identity and protocol version;
+- H0, H1, and H2 hypothesis roles;
+- separation between information coupling (g_info) and spacetime coupling (g_spacetime);
+- the required five validity stages;
+- an explicit execution gate.
 
-- INFRASTRUCTURE_FAILURE
-- IMPLEMENTATION_FAILURE
-- METHOD_FAILURE
-- SCIENTIFIC_FAILURE
-- RESULT
+Scientific execution is intentionally blocked while the observable signature and stage-specific criteria remain unregistered.
 
-A successful infrastructure run is not scientific evidence.
+This is deliberate: the protocol must be complete before the experiment can run.
