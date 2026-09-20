@@ -14,6 +14,9 @@ class BHDMasterRunnerTests(unittest.TestCase):
             result["stage_results"]["OBSERVABLE_DERIVATION"],
             "NO_PRIMARY_OBSERVABLE_YET",
         )
+        self.assertEqual(result["stage_results"]["AUDIT_INPUT_VALIDATION"], "PASS")
+        self.assertGreaterEqual(result["audit_input"]["finding_count"], 9)
+        self.assertTrue(result["audit_input"]["scientific_execution_forced_closed"])
 
 
 if __name__ == "__main__":
