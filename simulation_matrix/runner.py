@@ -9,9 +9,10 @@ ROOT=Path(__file__).resolve().parent.parent
 def main() -> None:
     parser=argparse.ArgumentParser()
     parser.add_argument("--project-id",required=True,help="Explicit project namespace; never inferred from prior state.")
+    parser.add_argument("--project-manifest",default=None,help="Optional explicit project manifest path.")
     args=parser.parse_args()
     try:
-        state=run(ROOT,project_id=args.project_id)
+        state=run(ROOT,project_id=args.project_id,project_manifest_path=Path(args.project_manifest) if args.project_manifest else None)
     except Exception as exc:
         print(json.dumps({"status":"INFRASTRUCTURE_FAILURE","error":f"{type(exc).__name__}: {exc}","project_id":args.project_id},indent=2))
         raise SystemExit(2) from exc
