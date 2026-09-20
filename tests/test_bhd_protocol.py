@@ -22,7 +22,7 @@ class BHDProtocolTests(unittest.TestCase):
         source = Path(__file__).parents[1] / "simulation_matrix" / "cases" / "bhd_protocol.json"
         protocol = load_protocol(source)
         self.assertEqual(protocol["case_id"], "bhd.hidden_sector")
-        self.assertEqual(protocol["protocol_version"], "BHD-P1.0")
+        self.assertEqual(protocol["protocol_version"], "BHD-P1.1")
 
 if __name__ == "__main__":
     unittest.main()
