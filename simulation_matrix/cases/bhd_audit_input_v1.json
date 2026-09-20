@@ -1,0 +1,154 @@
+{
+  "audit_input_version": "BHD-AUDIT-INPUT-V1",
+  "case_id": "bhd.hidden_sector",
+  "mission": "Audit the latest BHD scientific and methodological problems before any new scientific simulation is permitted.",
+  "scientific_execution": {
+    "allow": false,
+    "reason": "This input is an audit contract only. Scientific execution may open only after every blocking issue is resolved by explicit pre-registration and independent validation."
+  },
+  "frozen_rules": {
+    "seed": 42,
+    "principle": "Experiment validity precedes result significance.",
+    "no_post_hoc_changes": true,
+    "no_invented_data_or_parameters": true,
+    "no_scientific_claim_from_audit_pass": true,
+    "max_simulation_runs_if_gate_opens": 1000000,
+    "escalation": [10, 100, 1000, 10000, 100000, 1000000]
+  },
+  "known_state": {
+    "protocol_version": "BHD-P1.3",
+    "hypotheses": {
+      "H0": "epsilon = 0",
+      "H1": "epsilon != 0",
+      "H2": "classical nuisance model can explain the observed signature"
+    },
+    "information_chain": "rho_boundary -> F_Q -> g_info",
+    "information_metric_definition": "g_info = alpha * F_Q",
+    "g_info_role": "information-geometric diagnostic only; not established as a spacetime metric",
+    "primary_observable_status": "UNDEFINED",
+    "scientific_execution_status": "BLOCKED"
+  },
+  "known_findings_to_audit": [
+    {
+      "id": "BHD-ISSUE-001",
+      "problem": "No independently registered primary observable maps epsilon to a measurable/model-output signature.",
+      "severity": "CRITICAL",
+      "audit_question": "Can one primary observable be derived from the declared forward model and generated independently under H0, H1 and H2 without using test outcomes?",
+      "pass_condition": "Exactly one observable is formally defined, has fixed units/normalization, is computable under all three hypotheses, and is independent of fitted test outcomes.",
+      "failure_action": "BLOCK scientific execution."
+    },
+    {
+      "id": "BHD-ISSUE-002",
+      "problem": "H0/H1/H2 generative contracts are incomplete.",
+      "severity": "CRITICAL",
+      "audit_question": "Can independent data/output generation be specified for epsilon=0, epsilon!=0, and the strongest declared classical nuisance explanation?",
+      "pass_condition": "All three generators are explicit, independently executable, parameter domains are fixed, and nuisance parameters are controlled.",
+      "failure_action": "BLOCK scientific execution."
+    },
+    {
+      "id": "BHD-ISSUE-003",
+      "problem": "The proposed relation between information geometry and a physical spacetime/hidden-sector coupling is not established.",
+      "severity": "CRITICAL",
+      "audit_question": "Does the declared forward model independently justify any mapping from g_info to g_spacetime or to a physical hidden-sector observable?",
+      "pass_condition": "A mathematically explicit, independently testable forward mapping exists with units, assumptions, and an H2 alternative.",
+      "failure_action": "Reject the physical interpretation while retaining any valid information-geometric diagnostic."
+    },
+    {
+      "id": "BHD-ISSUE-004",
+      "problem": "Metric-derived candidates such as trace, determinant, principal eigenvalue and directional QFI are currently diagnostic candidates, not evidence of a hidden-sector effect.",
+      "severity": "HIGH",
+      "audit_question": "Does any candidate acquire evidence status without circularity, arbitrary selection, or result-dependent selection?",
+      "pass_condition": "Only a model-derived, pre-registered observable survives independent H0/H1/H2 generation and falsification.",
+      "failure_action": "Keep candidate diagnostic-only."
+    },
+    {
+      "id": "BHD-ISSUE-005",
+      "problem": "Historical TFIM benchmark values do not match the current N=4 open-chain pure-state QFI implementation.",
+      "severity": "HIGH",
+      "audit_question": "Is the discrepancy explained by a documented model/convention difference rather than implementation tuning?",
+      "pass_condition": "Model definition, Hamiltonian convention, parameterization, derivative method and normalization are compared; no parameter is tuned merely to reproduce the historical numbers.",
+      "failure_action": "Classify as MODEL_DEFINITION_MISMATCH unless independently resolved."
+    },
+    {
+      "id": "BHD-ISSUE-006",
+      "problem": "The current TFIM pre-experiment implementation passes finite/symmetric/PSD structural checks but does not establish the intended physical hypothesis.",
+      "severity": "HIGH",
+      "audit_question": "Are numerical validity and scientific validity being kept separate?",
+      "pass_condition": "Numerical checks are reported only as implementation validation; no physical conclusion is promoted from them.",
+      "failure_action": "Do not promote the result to scientific evidence."
+    },
+    {
+      "id": "BHD-ISSUE-007",
+      "problem": "Existing identifiability results (d=2 R^2=0.05966; d=3 R^2=0.00610) are diagnostics and do not identify a physical hidden-sector effect.",
+      "severity": "HIGH",
+      "audit_question": "Does the proposed primary parameter remain identifiable against declared nuisance parameters under the final observable?",
+      "pass_condition": "Identifiability is evaluated on the final pre-registered observable and nuisance model, with explicit degeneracy and acceptance rules.",
+      "failure_action": "Reject the corresponding scientific claim if the target is non-identifiable."
+    },
+    {
+      "id": "BHD-ISSUE-008",
+      "problem": "No falsification statistic and threshold are pre-registered because the observable and null/nuisance models remain incomplete.",
+      "severity": "CRITICAL",
+      "audit_question": "Can falsification be defined before seeing scientific simulation results?",
+      "pass_condition": "Statistic, threshold, multiplicity policy, stopping rule and exclusion rule are fixed before scientific batches.",
+      "failure_action": "BLOCK scientific execution."
+    },
+    {
+      "id": "BHD-ISSUE-009",
+      "problem": "The million-run capacity must not become an excuse to scale an invalid design.",
+      "severity": "CRITICAL",
+      "audit_question": "Does the design survive cheap validity gates before escalation?",
+      "pass_condition": "Escalation occurs only after each prior layer passes; no large simulation is used to rescue a failed design.",
+      "failure_action": "STOP escalation."
+    }
+  ],
+  "required_audit_order": [
+    "PROVENANCE_RECONSTRUCTION",
+    "MODEL_DEFINITION_AUDIT",
+    "NUMERICAL_VALIDATION",
+    "OBSERVABLE_DERIVATION_AUDIT",
+    "H0_H1_H2_GENERATION_AUDIT",
+    "LEAKAGE_AND_CIRCULARITY_AUDIT",
+    "IDENTIFIABILITY_AUDIT",
+    "ADVERSARIAL_STRESS",
+    "ROBUSTNESS",
+    "FALSIFICATION_DESIGN_AUDIT",
+    "SURVIVOR_CHECK"
+  ],
+  "adversarial_requirements": [
+    "Try to explain every proposed signature with H0.",
+    "Try to reproduce every proposed signature using H2 classical nuisance structure.",
+    "Test normalization dependence.",
+    "Test parameter reparameterization dependence.",
+    "Test finite-difference and numerical tolerance dependence.",
+    "Test model-convention dependence.",
+    "Test parameter degeneracy and weak identifiability.",
+    "Test whether candidate selection can become result-dependent.",
+    "Test whether any endpoint is mathematically circular.",
+    "Test whether the proposed hidden-sector interpretation requires an unsupported mapping."
+  ],
+  "decision_policy": {
+    "PHD_CANDIDATE": "Only if the complete audit survives and a genuine unresolved question remains after H0/H1/H2 falsification.",
+    "SCIENTIFIC_GATE_OPEN": "Only if primary observable, H0/H1/H2 generators, domains, units, metric, thresholds, stopping/exclusion rules and provenance are independently registered and pass audit.",
+    "NO_PHD_CANDIDATE_SURVIVED": "Return this if every candidate is explained by conventional/null/nuisance models, is non-identifiable, or fails validity.",
+    "INCONCLUSIVE": "Return this when the method is valid but the evidence is insufficient to distinguish hypotheses."
+  },
+  "required_output": [
+    "FINAL_STATUS",
+    "BLOCKING_ISSUES",
+    "SURVIVING_ISSUES",
+    "FAILED_CANDIDATES",
+    "PHD_CANDIDATE",
+    "EXACT_RESEARCH_QUESTION",
+    "SCIENTIFIC_GAP",
+    "H0",
+    "H1",
+    "H2",
+    "PRIMARY_OBSERVABLE",
+    "FALSIFICATION_TEST",
+    "IDENTIFIABILITY_STATUS",
+    "ROBUSTNESS_STATUS",
+    "WHAT_FAILED",
+    "NEXT_JUSTIFIED_STEP"
+  ]
+}
