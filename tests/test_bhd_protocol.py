@@ -68,11 +68,11 @@ class BHDProtocolTests(unittest.TestCase):
         del protocol["stages"]["FALSIFICATION"]["registered_inputs"]["falsification_threshold"]
         self.assertFalse(execution_ready(protocol))
 
-if __name__ == "__main__":
-    unittest.main()
-
     def test_observable_candidate_set_does_not_open_gate(self):
         protocol = load_protocol(SOURCE)
         self.assertEqual(protocol["observable_selection"]["status"], "CANDIDATE_SET_NOT_SELECTED")
         self.assertEqual(protocol["model_scope"]["observable_signature"], "TBD")
         self.assertFalse(execution_ready(protocol))
+
+if __name__ == "__main__":
+    unittest.main()
