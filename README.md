@@ -21,6 +21,8 @@ The BHD protocol records:
 - the required five validity stages;
 - an explicit execution gate.
 
-Scientific execution is intentionally blocked while the observable signature and stage-specific criteria remain unregistered.
+Scientific execution is intentionally blocked while the observable derivation, observable signature, and stage-specific criteria remain unregistered.
+
+The observable derivation contract is recorded in simulation_matrix/cases/bhd_observable_derivation.md and explicitly forbids result-driven observable selection.
 
 This is deliberate: the protocol must be complete before the experiment can run.
