@@ -1,0 +1,28 @@
+{
+  "protocol_version": "BHD-P1.0",
+  "case_id": "bhd.hidden_sector",
+  "scientific_experiment": false,
+  "status": "PROTOCOL_DRAFT",
+  "hypotheses": {
+    "H0": "epsilon = 0",
+    "H1": "epsilon != 0",
+    "H2": "classical nuisance model can explain the observed signature"
+  },
+  "model_scope": {
+    "boundary_information": "rho_boundary",
+    "information_coupling": "g_info",
+    "spacetime_coupling": "g_spacetime",
+    "observable_signature": "TBD"
+  },
+  "stages": {
+    "FALSIFICATION": {"criterion": "TBD", "pre_registered": false},
+    "ADVERSARIAL_STRESS": {"criterion": "TBD", "pre_registered": false},
+    "IDENTIFIABILITY": {"criterion": "TBD", "pre_registered": false},
+    "ROBUSTNESS": {"criterion": "TBD", "pre_registered": false},
+    "SURVIVOR_CHECK": {"criterion": "TBD", "pre_registered": false}
+  },
+  "execution_gate": {
+    "allow_scientific_execution": false,
+    "reason": "Phase 1 defines the BHD case boundary only. No scientific simulation is permitted until all stage criteria and observables are explicitly pre-registered."
+  }
+}
