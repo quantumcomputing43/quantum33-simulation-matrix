@@ -19,6 +19,7 @@ LOG = ROOT / "logs" / "master_event_log.jsonl"
 CASES = {
     "BHD": "simulation_matrix.cases.bhd_master_runner",
     "miRNA21": "simulation_matrix.cases.mirna21_master_runner",
+    "BHD_5SCIENTIST_CROSSWALK": "simulation_matrix.cases.bhd_5scientist_crosswalk",
 }
 
 def load_strategy() -> dict:
