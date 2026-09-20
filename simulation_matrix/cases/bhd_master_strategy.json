@@ -1,0 +1,50 @@
+{
+  "strategy_version": "BHD-MASTER-V1",
+  "seed": 42,
+  "scientific_execution": false,
+  "principle": "Experiment validity precedes result significance.",
+  "execution_order": [
+    "PROVENANCE_RECONSTRUCTION",
+    "MODEL_DEFINITION_AUDIT",
+    "NUMERICAL_VALIDATION",
+    "ADVERSARIAL_STRESS",
+    "IDENTIFIABILITY",
+    "ROBUSTNESS",
+    "OBSERVABLE_DERIVATION",
+    "H0_H1_H2_GENERATION_AUDIT",
+    "FALSIFICATION",
+    "SURVIVOR_CHECK"
+  ],
+  "legacy_steps_integrated": {
+    "TFIM_N4_open_chain": true,
+    "pure_state_QFI": true,
+    "h_values": [0.1, 0.01],
+    "historical_benchmark_audit": true,
+    "finite_difference_convergence": true,
+    "metric_PSD_check": true,
+    "identifiability_R2_d2": 0.05966,
+    "identifiability_R2_d3": 0.00610,
+    "OBS_C_R2_diagnostic_only": true,
+    "H0_epsilon_zero": true,
+    "H1_epsilon_nonzero": true,
+    "H2_classical_nuisance": true,
+    "primary_observable_gate": true,
+    "no_post_hoc_changes": true
+  },
+  "simulation_budget": {
+    "maximum_requested_runs": 1000000,
+    "default_batch_size": 10000,
+    "checkpoint_every_batch": true,
+    "never_use_result_to_change_protocol": true,
+    "stop_on_infrastructure_failure": true,
+    "stop_scientific_execution_if_gate_closed": true
+  },
+  "result_classes": [
+    "INFRASTRUCTURE_FAILURE",
+    "IMPLEMENTATION_FAILURE",
+    "METHOD_FAILURE",
+    "SCIENTIFIC_FAILURE",
+    "RESULT"
+  ],
+  "promotion_rule": "No scientific RESULT is accepted unless every required stage and the execution gate pass."
+}
