@@ -30,16 +30,16 @@ REQUIRED_AUDIT_FIELDS = (
     "missing_or_invalid_output_rule",
 )
 
-REQUIRED_PROVENANCE_FIELDS = (
-    "equations",
-    "assumptions",
-    "external_baselines",
-)
-
+REQUIRED_PROVENANCE_FIELDS = ("equations", "assumptions", "external_baselines")
 BLOCKED_VALUES = {"TBD", "", None}
 
 def _is_blocked(value) -> bool:
-    return value in BLOCKED_VALUES or (isinstance(value, str) and not value.strip())
+    if value in BLOCKED_VALUES:
+        return True
+    if isinstance(value, str):
+        normalized = value.strip().upper()
+        return not normalized or "TBD" in normalized or "PENDING" in normalized
+    return False
 
 def _strict_object_pairs(pairs):
     result = {}
@@ -51,13 +51,9 @@ def _strict_object_pairs(pairs):
 
 def load_protocol(path: Path) -> dict:
     try:
-        data = json.loads(
-            path.read_text(encoding="utf-8"),
-            object_pairs_hook=_strict_object_pairs,
-        )
+        data = json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=_strict_object_pairs)
     except (json.JSONDecodeError, BHDProtocolIncomplete) as exc:
         raise BHDProtocolIncomplete(f"Invalid BHD protocol JSON: {exc}") from exc
-
     if data.get("protocol_version") != "BHD-P1.3":
         raise BHDProtocolIncomplete("Unsupported BHD protocol version.")
     if data.get("case_id") != "bhd.hidden_sector":
@@ -91,17 +87,14 @@ def execution_ready(protocol: dict) -> bool:
         return False
     if not _audit_complete(protocol):
         return False
-
     scope = protocol.get("model_scope", {})
     if _is_blocked(scope.get("observable_signature")):
         return False
-
     stages = protocol.get("stages", {})
     return all(_stage_registration_complete(stages.get(stage, {})) for stage in REQUIRED_STAGES)
 
 def assert_execution_ready(protocol: dict) -> None:
     if not execution_ready(protocol):
         raise BHDProtocolIncomplete(
-            "BHD scientific execution is blocked: the protocol is not fully "
-            "pre-registered and audited."
+            "BHD scientific execution is blocked: the protocol is not fully pre-registered and audited."
         )
