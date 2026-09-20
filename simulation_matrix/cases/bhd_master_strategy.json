@@ -18,12 +18,15 @@
   "legacy_steps_integrated": {
     "TFIM_N4_open_chain": true,
     "pure_state_QFI": true,
-    "h_values": [0.1, 0.01],
+    "h_values": [
+      0.1,
+      0.01
+    ],
     "historical_benchmark_audit": true,
     "finite_difference_convergence": true,
     "metric_PSD_check": true,
     "identifiability_R2_d2": 0.05966,
-    "identifiability_R2_d3": 0.00610,
+    "identifiability_R2_d3": 0.0061,
     "OBS_C_R2_diagnostic_only": true,
     "H0_epsilon_zero": true,
     "H1_epsilon_nonzero": true,
@@ -46,5 +49,13 @@
     "SCIENTIFIC_FAILURE",
     "RESULT"
   ],
-  "promotion_rule": "No scientific RESULT is accepted unless every required stage and the execution gate pass."
+  "promotion_rule": "No scientific RESULT is accepted unless every required stage and the execution gate pass.",
+  "orchestration": {
+    "entrypoint": "simulation_matrix.cases.bhd_master_runner",
+    "runs_all_currently_executable_layers": true,
+    "aggregated_report": "results/bhd_master_report.json",
+    "scientific_gate_is_authoritative": true,
+    "zero_scientific_runs_when_gate_closed": true
+  },
+  "audit_invariant": "The master runner may aggregate and diagnose, but may not invent an observable, threshold, nuisance model, or scientific result."
 }
