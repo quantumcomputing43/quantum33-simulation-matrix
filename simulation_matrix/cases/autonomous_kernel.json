@@ -1,0 +1,55 @@
+{
+  "strategy_version": "Q33-AUTONOMOUS-KERNEL-V1",
+  "purpose": "Audit-first orchestration that detects, classifies, safely repairs mechanical defects, blocks unsafe scientific assumptions, and produces a terminal status.",
+  "seed": 42,
+  "scientific_execution_default": false,
+  "no_post_hoc_changes": true,
+  "stages": [
+    "PROVENANCE",
+    "SCHEMA_AND_CONTRACTS",
+    "UNITS_AND_NORMALIZATION",
+    "DETERMINISM",
+    "IMPLEMENTATION",
+    "DATA_AND_INPUTS",
+    "GENERATIVE_MODEL",
+    "NULL_AND_CONTROLS",
+    "LEAKAGE_AND_CIRCULARITY",
+    "ENDPOINT_AND_MEASUREMENT",
+    "IDENTIFIABILITY",
+    "ADVERSARIAL_STRESS",
+    "ROBUSTNESS",
+    "FALSIFICATION",
+    "REPRODUCIBILITY",
+    "EXECUTION_GATE",
+    "RESULT_AND_SURVIVOR"
+  ],
+  "auto_repair_policy": {
+    "allowed": [
+      "create_missing_artifact_directories",
+      "regenerate_stale_checkpoints",
+      "re-run_deterministic_contract_tests",
+      "retry_transient_import_or_execution_once",
+      "normalize_non_scientific_artifact_serialization"
+    ],
+    "forbidden": [
+      "invent_primary_observable",
+      "invent_or_modify_h0_h1_h2",
+      "change_threshold_after_observing_results",
+      "change_exclusion_or_stopping_rule_after_observing_results",
+      "replace_missing_data_with_synthetic_data",
+      "silently_change_units_or_normalization",
+      "select_a_candidate_because_it_performed_better",
+      "open_scientific_gate_when_required_contracts_fail"
+    ]
+  },
+  "promotion_rule": "A scientific RESULT is allowed only if every required stage passes and the execution gate is explicitly open.",
+  "failure_semantics": {
+    "INFRASTRUCTURE_FAILURE": "execution environment or required infrastructure is unavailable",
+    "IMPLEMENTATION_FAILURE": "code or contract defect remains after safe mechanical repair attempts",
+    "INPUT_FAILURE": "required scientific input is missing, frozen provenance is absent, or data are invalid",
+    "METHOD_FAILURE": "measurement/model/control/identifiability/falsification contract fails",
+    "SCIENTIFIC_FAILURE": "a registered scientific hypothesis is falsified under its pre-registered rule",
+    "INCONCLUSIVE": "execution is valid but evidence cannot decide the registered hypothesis",
+    "RESULT": "all validity gates pass and the pre-registered result rule is satisfied"
+  }
+}
