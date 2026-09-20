@@ -2,12 +2,18 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+
 from simulation_matrix.cases.bhd import (
-    BHDProtocolIncomplete, assert_execution_ready, execution_ready, load_protocol
+    BHDProtocolIncomplete,
+    assert_execution_ready,
+    execution_ready,
+    load_protocol,
+    _is_blocked,
 )
 
 ROOT = Path(__file__).parents[1]
 SOURCE = ROOT / "simulation_matrix" / "cases" / "bhd_protocol.json"
+
 
 class BHDProtocolTests(unittest.TestCase):
     def test_phase1_protocol_is_not_executable(self):
@@ -29,8 +35,7 @@ class BHDProtocolTests(unittest.TestCase):
     def test_duplicate_json_keys_are_rejected(self):
         raw = SOURCE.read_text(encoding="utf-8").replace(
             '"case_id": "bhd.hidden_sector",',
-            '"case_id": "bhd.hidden_sector",
-  "case_id": "tampered",',
+            '"case_id": "bhd.hidden_sector",\n  "case_id": "tampered",',
             1,
         )
         with tempfile.NamedTemporaryFile("w", encoding="utf-8", suffix=".json") as handle:
@@ -71,15 +76,13 @@ class BHDProtocolTests(unittest.TestCase):
     def test_observable_candidate_set_does_not_open_gate(self):
         protocol = load_protocol(SOURCE)
         self.assertEqual(protocol["observable_selection"]["status"], "CANDIDATE_SET_NOT_SELECTED")
-        self.assertEqual(protocol["observable_selection"]["derivation_contract"], "simulation_matrix/cases/bhd_observable_derivation.md")
+        self.assertEqual(
+            protocol["observable_selection"]["derivation_contract"],
+            "simulation_matrix/cases/bhd_observable_derivation.md",
+        )
         self.assertEqual(protocol["model_scope"]["observable_signature"], "TBD")
         self.assertFalse(execution_ready(protocol))
 
-if __name__ == "__main__":
-    unittest.main()
-
-import unittest
-from simulation_matrix.cases.bhd import _is_blocked
 
 class BHDGateTests(unittest.TestCase):
     def test_embedded_tbd_is_blocked(self):
@@ -88,6 +91,7 @@ class BHDGateTests(unittest.TestCase):
 
     def test_clean_registered_value_is_allowed(self):
         self.assertFalse(_is_blocked("verified equation: O = F(inputs)"))
+
 
 if __name__ == "__main__":
     unittest.main()
