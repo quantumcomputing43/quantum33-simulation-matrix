@@ -33,6 +33,8 @@ jobs:
         run: python -m simulation_matrix.cases.bhd_master_verify
       - name: Run unified BHD master pre-experiment audit
         run: python -m simulation_matrix.cases.bhd_master_runner
+      - name: Run Quantum33 master orchestration
+        run: python -m simulation_matrix.master_runner
       - name: Run generic matrix
         run: python -m simulation_matrix.runner
       - name: Upload matrix artifacts
