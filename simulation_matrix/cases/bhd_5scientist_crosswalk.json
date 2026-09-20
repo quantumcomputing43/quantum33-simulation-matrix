@@ -1,0 +1,48 @@
+{
+  "strategy_version": "BHD-5SCIENTIST-CROSSWALK-V1",
+  "seed": 42,
+  "purpose": "Pre-experiment methodological crosswalk. This does not import historical theories or alter BHD hypotheses.",
+  "scientific_execution": false,
+  "fixed_gates": [
+    "INDEPENDENT_PRIMARY_OBSERVABLE",
+    "H0_H1_H2_PRESERVATION",
+    "INDEPENDENT_FORWARD_MAP",
+    "PRE_REGISTERED_FALSIFICATION",
+    "NON_CIRCULAR_MEASUREMENT"
+  ],
+  "principles": [
+    {
+      "id": "TESLA",
+      "principle": "mechanism_first",
+      "route": "derive the simplest concrete mechanism that could generate a BHD signature, then demand a decisive test"
+    },
+    {
+      "id": "EINSTEIN",
+      "principle": "null_and_invariance",
+      "route": "require a conventional/null explanation and invariance under admissible reparameterization and normalization"
+    },
+    {
+      "id": "HEISENBERG",
+      "principle": "observable_first",
+      "route": "start from a precisely defined measurable quantity and its operational measurement limits"
+    },
+    {
+      "id": "BOHR",
+      "principle": "measurement_context",
+      "route": "separate mathematical state/quantity from what the measurement protocol can physically establish"
+    },
+    {
+      "id": "SCHRODINGER",
+      "principle": "generative_state_dynamics",
+      "route": "define state evolution/generative dynamics first, then derive the observable from the dynamics"
+    }
+  ],
+  "decision_policy": {
+    "no_post_hoc_selection": true,
+    "no_change_to_h0_h1_h2": true,
+    "no_scientific_batches": true,
+    "no_rank_from_empirical_results": true,
+    "survivor_requires_all_fixed_gates": true,
+    "partial_alignment_is_not_scientific_evidence": true
+  }
+}
