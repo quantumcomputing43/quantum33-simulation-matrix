@@ -1,5 +1,5 @@
 {
-  "protocol_version": "BHD-P1.1",
+  "protocol_version": "BHD-P1.2",
   "case_id": "bhd.hidden_sector",
   "scientific_experiment": false,
   "status": "PROTOCOL_DRAFT",
@@ -39,27 +39,52 @@
     "FALSIFICATION": {
       "criterion": "TBD",
       "pre_registered": false,
-      "required_inputs": ["primary_observable", "null_model_definition", "falsification_threshold"]
+      "required_inputs": ["primary_observable", "null_model_definition", "falsification_threshold"],
+      "registered_inputs": {
+        "primary_observable": "TBD",
+        "null_model_definition": "TBD",
+        "falsification_threshold": "TBD"
+      }
     },
     "ADVERSARIAL_STRESS": {
       "criterion": "TBD",
       "pre_registered": false,
-      "required_inputs": ["adversarial_suite", "allowed_perturbation_domain", "failure_threshold"]
+      "required_inputs": ["adversarial_suite", "allowed_perturbation_domain", "failure_threshold"],
+      "registered_inputs": {
+        "adversarial_suite": "TBD",
+        "allowed_perturbation_domain": "TBD",
+        "failure_threshold": "TBD"
+      }
     },
     "IDENTIFIABILITY": {
       "criterion": "TBD",
       "pre_registered": false,
-      "required_inputs": ["target_parameters", "identifiability_metric", "degeneracy_rule"]
+      "required_inputs": ["target_parameters", "identifiability_metric", "degeneracy_rule"],
+      "registered_inputs": {
+        "target_parameters": "TBD",
+        "identifiability_metric": "TBD",
+        "degeneracy_rule": "TBD"
+      }
     },
     "ROBUSTNESS": {
       "criterion": "TBD",
       "pre_registered": false,
-      "required_inputs": ["repetition_policy", "stability_metric", "stability_threshold"]
+      "required_inputs": ["repetition_policy", "stability_metric", "stability_threshold"],
+      "registered_inputs": {
+        "repetition_policy": "TBD",
+        "stability_metric": "TBD",
+        "stability_threshold": "TBD"
+      }
     },
     "SURVIVOR_CHECK": {
       "criterion": "TBD",
       "pre_registered": false,
-      "required_inputs": ["all_stage_pass", "audit_complete", "no_unresolved_critical_failure"]
+      "required_inputs": ["all_stage_pass", "audit_complete", "no_unresolved_critical_failure"],
+      "registered_inputs": {
+        "all_stage_pass": "TBD",
+        "audit_complete": "TBD",
+        "no_unresolved_critical_failure": "TBD"
+      }
     }
   },
   "failure_policy": {
@@ -75,6 +100,6 @@
   },
   "execution_gate": {
     "allow_scientific_execution": false,
-    "reason": "Scientific execution remains blocked until the observable, null/nuisance models, parameter domains, metrics, thresholds, stopping/exclusion rules, provenance, and all five stage criteria are explicitly pre-registered."
+    "reason": "Scientific execution remains blocked until the observable, null/nuisance models, parameter domains, metrics, thresholds, stopping/exclusion rules, provenance, and every required stage input are explicitly pre-registered."
   }
 }
