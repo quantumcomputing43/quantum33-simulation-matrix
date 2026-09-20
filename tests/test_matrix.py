@@ -53,6 +53,45 @@ class MatrixTests(unittest.TestCase):
             for bad in ("../BHD","BHD/../miRNA21",""):
                 with self.assertRaises(ConfigError): run(root,project_id=bad,matrix_path=root/"matrix.json")
 
+    def test_input_paths_must_remain_under_root(self):
+        with tempfile.TemporaryDirectory() as d, tempfile.TemporaryDirectory() as outside:
+            root=Path(d); self._copy_matrix(root)
+            self._write_manifest(root,"PROJECT_A")
+            external_matrix=Path(outside)/"matrix.json"
+            external_matrix.write_text((root/"matrix.json").read_text(encoding="utf-8"),encoding="utf-8")
+            with self.assertRaises(ConfigError):
+                run(root,project_id="PROJECT_A",matrix_path=external_matrix,project_manifest_path=root/"PROJECT_A.json")
+            external_manifest=Path(outside)/"PROJECT_A.json"
+            external_manifest.write_text((root/"PROJECT_A.json").read_text(encoding="utf-8"),encoding="utf-8")
+            with self.assertRaises(ConfigError):
+                run(root,project_id="PROJECT_A",matrix_path=root/"matrix.json",project_manifest_path=external_manifest)
+
+    def test_manifest_identity_and_case_mismatch_fail_closed(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d); self._copy_matrix(root)
+            self._write_manifest(root,"PROJECT_A")
+            p=root/"PROJECT_A.json"
+            data=json.loads(p.read_text(encoding="utf-8"))
+            data["project_id"]="PROJECT_B"
+            p.write_text(json.dumps(data),encoding="utf-8")
+            with self.assertRaises(RuntimeError):
+                run(root,project_id="PROJECT_A",matrix_path=root/"matrix.json",project_manifest_path=p)
+            data["project_id"]="PROJECT_A"; data["case_id"]="wrong.case"
+            p.write_text(json.dumps(data),encoding="utf-8")
+            with self.assertRaises((RuntimeError,ValueError)):
+                run(root,project_id="PROJECT_A",matrix_path=root/"matrix.json",project_manifest_path=p)
+
+    def test_corrupted_checkpoint_fails_closed_without_overwrite(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d); self._copy_matrix(root)
+            self._write_manifest(root,"PROJECT_A")
+            run(root,project_id="PROJECT_A",matrix_path=root/"matrix.json",project_manifest_path=root/"PROJECT_A.json")
+            p=root/"state"/"PROJECT_A"/"checkpoint_V2.1.json"
+            p.write_text("{not-json",encoding="utf-8")
+            with self.assertRaises(RuntimeError):
+                run(root,project_id="PROJECT_A",matrix_path=root/"matrix.json",project_manifest_path=root/"PROJECT_A.json")
+            self.assertEqual(p.read_text(encoding="utf-8"),"{not-json")
+
     def test_incompatible_checkpoint_preserved(self):
         with tempfile.TemporaryDirectory() as d:
             root=Path(d); self._copy_matrix(root)
