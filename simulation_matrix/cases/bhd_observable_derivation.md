@@ -1,50 +1,37 @@
 # BHD Observable Derivation Contract
 
-## Purpose
+## Verified boundary
 
-Define how the primary BHD observable will be selected without using simulation outcomes.
+The currently verified mathematical chain is:
 
-## Fixed model boundary
+rho_boundary -> F_Q -> g_info
 
-The current case boundary contains:
-- boundary information: rho_boundary
-- information coupling: g_info
-- spacetime coupling: g_spacetime
-- hypotheses: H0 (epsilon = 0), H1 (epsilon != 0), H2 (classical nuisance explanation)
+This establishes an information metric, not a spacetime metric and not yet a
+physical hidden-sector measurement.
 
-These labels are protocol roles, not evidence for a physical interpretation.
+## Automatic candidate audit
 
-## Selection rule
+The Simulation Matrix evaluates metric-derived candidates before allowing any
+candidate to become the primary observable:
 
-A primary observable is admissible only if all conditions hold:
+- trace(g_info)
+- det(g_info)
+- principal eigenvalue of g_info
+- directional QFI along a fixed path
 
-1. It is derived from an explicit forward map from model inputs to an observable output.
-2. It is computable under H0, H1, and H2.
-3. Its units and normalization are fixed before simulation.
-4. Its definition does not depend on fitted results from the same test.
-5. Its null distribution can be generated independently under H0.
-6. The H2 nuisance model can generate the same observable without inserting the H1 answer by construction.
-7. The observable is distinct from an identifiability diagnostic.
+These remain diagnostics only because the current contract does not independently
+define an epsilon-to-measured-observable forward map, H0/H1/H2 generation,
+units/normalization, independent null generation, and a fixed falsification
+statistic/threshold.
 
-## Candidate roles
+## Primary-observable rule
 
-- OBS-A: direct forward-model signature. Candidate for primary observable after the forward map is explicitly written.
-- OBS-B: nuisance-orthogonal signature. Candidate only after the classical nuisance tangent/model space is explicitly defined.
-- OBS-C: conditional information fraction R² = I(epsilon|eta) / I(epsilon,epsilon). Diagnostic for local identifiability, not primary physical evidence.
+A candidate becomes primary only when every required contract item is present
+and auditable. Simulation results cannot change this rule.
 
-## Required derivation record
+## Current decision
 
-Before selecting one candidate, record:
-- forward equation;
-- input/state variables;
-- output variable and units;
-- H0/H1/H2 generation rules;
-- nuisance parameters;
-- normalization;
-- admissible parameter domain;
-- independent-data rule;
-- falsification statistic and threshold.
+NO_PRIMARY_OBSERVABLE_YET.
 
-## Scientific gate
-
-No candidate is promoted to primary_observable until the derivation record is complete and independently auditable.
+Scientific execution remains blocked. The verified QFI geometry remains a
+diagnostic layer and is not relabeled as hidden-sector evidence.
