@@ -1,0 +1,5 @@
+simulation_matrix/logs/
+simulation_matrix/results/
+simulation_matrix/state/
+__pycache__/
+*.py[cod]
