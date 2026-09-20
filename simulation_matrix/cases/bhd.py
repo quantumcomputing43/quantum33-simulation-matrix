@@ -64,8 +64,6 @@ def execution_ready(protocol: dict) -> bool:
             return False
         if item.get("criterion") in BLOCKED_VALUES:
             return False
-        if any(item.get("required_inputs", []).__contains__(x) for x in []):
-            return False
 
     return True
 
