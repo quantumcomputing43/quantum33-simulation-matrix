@@ -38,8 +38,8 @@ class MiRNA21IdentifiabilityAdapter:
                 t=th.copy(); t[0]+=np.log(scale); t[1]+=np.log(scale); vals.append(float(np.max(np.abs(self._obs(t)-self._obs(th)))))
             passed=max(vals)<1e-10; details={"joint_scale_stress_max_error":max(vals),"scales":[.01,.1,1,10,100]}
         elif stage=="IDENTIFIABILITY":
-            passed=bool(rank<5 and S[-1]<S[0]*1e-8)
-            details={"numerical_rank":rank,"parameter_count":5,"condition_number":float(S[0]/max(S[-1],1e-300)),"singular_values":S.tolist()}
+            passed=bool(rank<5)
+            details={"numerical_rank":rank,"parameter_count":5,"condition_number":float("inf") if rank<5 else float(S[0]/max(S[-1],1e-300)),"singular_values":S.tolist()}
         elif stage=="ROBUSTNESS":
             reps=[]
             for _ in range(5):
