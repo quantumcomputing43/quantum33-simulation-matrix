@@ -1,4 +1,4 @@
-"""Strict configuration loading for the generic Simulation Matrix."""
+"""Strict configuration loading for the Simulation Matrix."""
 from __future__ import annotations
 import json
 from pathlib import Path
@@ -8,14 +8,12 @@ REQUIRED_TOP={"matrix_version","case_id","seed","scientific_experiment","executi
 REQUIRED_STAGE={"stage","enabled","purpose","pass_condition"}
 ALLOWED_STAGES={"FALSIFICATION","ADVERSARIAL_STRESS","IDENTIFIABILITY","ROBUSTNESS","SURVIVOR_CHECK"}
 
-class ConfigError(ValueError):
-    pass
+class ConfigError(ValueError): pass
 
 def _reject_duplicates(pairs:list[tuple[str,Any]])->dict[str,Any]:
     out={}
     for key,value in pairs:
-        if key in out:
-            raise ConfigError(f"duplicate JSON key: {key}")
+        if key in out: raise ConfigError(f"duplicate JSON key: {key}")
         out[key]=value
     return out
 
@@ -28,8 +26,7 @@ def load_matrix(path:Path)->dict[str,Any]:
 def validate_matrix(data:dict[str,Any])->None:
     missing=REQUIRED_TOP-data.keys()
     if missing: raise ConfigError(f"missing fields: {sorted(missing)}")
-    if data["seed"]!=42: raise ConfigError("seed must be exactly 42")
-    if data["scientific_experiment"] is not False: raise ConfigError("scientific_experiment must remain false")
+    if not isinstance(data["seed"],int): raise ConfigError("seed must be an integer")
     if data["execution_policy"].get("case_adapter_required") is not True: raise ConfigError("case_adapter_required must be true")
     if data["validity_rules"].get("record_all_failures") is not True: raise ConfigError("record_all_failures must be true")
     seen=set()
