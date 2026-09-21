@@ -1,0 +1,16 @@
+{
+  "matrix_version": "V2.0",
+  "case_id": "synthetic.contract",
+  "seed": 42,
+  "scientific_experiment": false,
+  "execution_policy": {"stop_on_failure": true,"require_deterministic_seed": true,"require_checkpoint": true,"require_result_record": true,"require_log_record": true,"case_adapter_required": true},
+  "pipeline": [
+    {"stage":"FALSIFICATION","enabled":true,"purpose":"Attempt to falsify the declared case contract.","pass_condition":"No predefined failure condition is triggered."},
+    {"stage":"ADVERSARIAL_STRESS","enabled":true,"purpose":"Stress the declared case contract under deterministic fixtures.","pass_condition":"No predefined robustness failure condition is triggered."},
+    {"stage":"IDENTIFIABILITY","enabled":true,"purpose":"Check deterministic target identifiability under the fixture.","pass_condition":"The fixture remains uniquely identified."},
+    {"stage":"ROBUSTNESS","enabled":true,"purpose":"Check deterministic stability of adapter output.","pass_condition":"Repeated deterministic execution produces the same digest."},
+    {"stage":"SURVIVOR_CHECK","enabled":true,"purpose":"Verify all enabled validity gates completed successfully.","pass_condition":"All enabled stages passed with no unresolved critical failure."}
+  ],
+  "validity_rules":{"no_post_hoc_thresholds":true,"no_post_hoc_hypothesis_changes":true,"no_result_based_stage_removal":true,"record_all_failures":true,"separate_infrastructure_failure_from_scientific_failure":true,"case_specific_science_must_not_modify_core_engine":true},
+  "output_contract":{"checkpoint":"state/checkpoint_V2.0.json","latest_result":"results/latest_V2.0.json","event_log":"logs/matrix_V2.0.jsonl"}
+}
