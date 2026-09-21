@@ -25,7 +25,7 @@ def _identity(matrix,adapter):
     return hashlib.sha256(json.dumps(payload,sort_keys=True,separators=(",",":")).encode()).hexdigest()
 
 def run(root:Path)->dict:
-    matrix=load_matrix(root/"simulation_matrix"/"matrix.json")
+    matrix=load_matrix(root/"matrix.json")
     adapter=_load_case(matrix["case_id"])
     identity=_identity(matrix,adapter)
     out=matrix["output_contract"]
