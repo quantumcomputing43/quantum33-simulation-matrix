@@ -31,6 +31,8 @@ jobs:
         run: python -m simulation_matrix.runner
       - name: Run blind miRNA-21 five-operation calibration
         run: python -m simulation_matrix.calibration_runner
+      - name: Run blind TCGA-BRCA integrity audit
+        run: python -m simulation_matrix.tcga_audit_runner
       - name: Upload matrix artifacts
         if: always()
         uses: actions/upload-artifact@v4
