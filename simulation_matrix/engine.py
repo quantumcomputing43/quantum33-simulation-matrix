@@ -4,7 +4,7 @@ import hashlib,json,importlib
 from datetime import datetime,timezone
 from pathlib import Path
 from simulation_matrix.config import load_matrix
-from simulation_matrix.contracts import INFRASTRUCTURE_FAILURE,IMPLEMENTATION_FAILURE,METHOD_FAILURE,SCIENTIFIC_FAILURE,RESULT
+from simulation_matrix.contracts import INFRASTRUCTURE_FAILURE,IMPLEMENTATION_FAILURE,METHOD_FAILURE,SCIENTIFIC_FAILURE,RESULT,BLOCKED
 
 def _now(): return datetime.now(timezone.utc).isoformat()
 def _write(path:Path,data:dict):
@@ -17,6 +17,8 @@ def _load_case(case_id:str):
         module="simulation_matrix.cases.synthetic"
     elif case_id=="miRNA21.sensor_identifiability.blind5":
         module="simulation_matrix.cases.mirna21_identifiability"
+    elif case_id=="miRNA21.tcga_brca.integrity_blind":
+        module="simulation_matrix.cases.tcga_brca_integrity"
     else:
         raise RuntimeError(f"INFRASTRUCTURE_FAILURE: unregistered case_id {case_id}")
     return importlib.import_module(module).load_case()
@@ -42,7 +44,7 @@ def run(root:Path)->dict:
         stage=spec["stage"]
         if not spec["enabled"] or stage in completed: continue
         try:
-            result=adapter.run_stage(stage,seed=matrix["seed"],context={"matrix":matrix,"execution_identity":identity,"prior_stages":state["stages"]})
+            result=adapter.run_stage(stage,seed=matrix["seed"],context={"matrix":matrix,"execution_identity":identity,"prior_stages":state["stages"],"root":root})
         except Exception as exc:
             item={"stage":stage,"status":IMPLEMENTATION_FAILURE,"passed":False,"error":f"{type(exc).__name__}: {exc}"}
             state["stages"].append(item); state["status"]=IMPLEMENTATION_FAILURE; _event(log,{**item,"timestamp":_now()}); _write(checkpoint,state); _write(latest,state); return state
@@ -50,7 +52,7 @@ def run(root:Path)->dict:
         state["stages"].append(item); _event(log,{**item,"timestamp":_now()}); _write(checkpoint,state)
         if not result.passed:
             failure=result.details.get("failure_status",SCIENTIFIC_FAILURE if matrix["scientific_experiment"] else METHOD_FAILURE)
-            state["status"]=failure if failure in {METHOD_FAILURE,SCIENTIFIC_FAILURE} else METHOD_FAILURE
+            state["status"]=failure if failure in {METHOD_FAILURE,SCIENTIFIC_FAILURE,BLOCKED} else METHOD_FAILURE
             _write(latest,state); return state
     enabled={x["stage"] for x in matrix["pipeline"] if x["enabled"]}; done={x["stage"] for x in state["stages"]}
     survivor=next((x for x in state["stages"] if x["stage"]=="SURVIVOR_CHECK"),None)
