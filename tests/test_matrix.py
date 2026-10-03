@@ -23,7 +23,7 @@ class MatrixTests(unittest.TestCase):
     def test_incompatible_checkpoint_preserved(self):
         with tempfile.TemporaryDirectory() as d:
             root=Path(d)/"simulation_matrix"; root.mkdir()
-            src=Path(__file__).parents[1]/"simulation_matrix"/"matrix.json"
+            src=Path(__file__).parents[1]/"matrix.json"
             (root/"matrix.json").write_text(src.read_text(encoding="utf-8"),encoding="utf-8")
             run(root)
             p=root/"state"/"checkpoint_V2.0.json"
