@@ -12,7 +12,7 @@ class MatrixTests(unittest.TestCase):
     def test_pipeline_result_and_resume(self):
         with tempfile.TemporaryDirectory() as d:
             root=Path(d)/"simulation_matrix"; root.mkdir()
-            src=Path(__file__).parents[1]/"simulation_matrix"/"matrix.json"
+            src=Path(__file__).parents[1]/"matrix.json"
             (root/"matrix.json").write_text(src.read_text(encoding="utf-8"),encoding="utf-8")
             first=run(root); second=run(root)
             self.assertEqual(first["status"],"RESULT")
