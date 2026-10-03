@@ -66,6 +66,6 @@ jobs:
         with:
           name: simulation-matrix-${{ github.run_id }}
           path: |
-            simulation_matrix/state/
-            simulation_matrix/results/
-            simulation_matrix/logs/
+            state/
+            results/
+            logs/
