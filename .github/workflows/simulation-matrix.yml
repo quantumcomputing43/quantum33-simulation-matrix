@@ -2,6 +2,27 @@ name: Simulation Matrix
 
 on:
   workflow_dispatch:
+    inputs:
+      project_id:
+        description: "Registered Simulation Matrix project identifier"
+        required: true
+        type: string
+        default: "synthetic.contract"
+      contract_path:
+        description: "Registered matrix contract path"
+        required: true
+        type: string
+        default: "matrix.json"
+      level:
+        description: "Execution level"
+        required: true
+        type: string
+        default: "10"
+      command:
+        description: "Human command metadata"
+        required: false
+        type: string
+        default: ""
   push:
     branches: [main, "github/**"]
     paths:
@@ -25,6 +46,16 @@ jobs:
           python-version: "3.11"
       - name: Install dependencies
         run: python -m pip install -r requirements.txt
+      - name: Validate dispatch contract
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          PROJECT_ID: ${{ inputs.project_id }}
+          CONTRACT_PATH: ${{ inputs.contract_path }}
+          LEVEL: ${{ inputs.level }}
+        run: |
+          test "$PROJECT_ID" = "synthetic.contract"
+          test "$CONTRACT_PATH" = "matrix.json"
+          case "$LEVEL" in 10|100|1000|10000|100000|1000000) ;; *) echo "Unsupported level: $LEVEL"; exit 1;; esac
       - name: Run contract tests
         run: python -m unittest discover -s tests -v
       - name: Run generic matrix
