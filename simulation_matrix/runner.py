@@ -7,9 +7,9 @@ from pathlib import Path
 from simulation_matrix.engine import run
 
 
-# runner.py and the registered matrix contract live in simulation_matrix/.
-# State/results/logs are kept under the same execution root.
-ROOT = Path(__file__).resolve().parent
+# runner.py lives inside simulation_matrix/, while matrix.json and the
+# output directories live at repository root.
+ROOT = Path(__file__).resolve().parent.parent
 
 
 def main() -> None:
