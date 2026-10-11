@@ -14,7 +14,7 @@ on:
         type: string
         default: "matrix.json"
       level:
-        description: "Execution level"
+        description: "Reserved fixture level; synthetic contract does not scale Monte Carlo runs"
         required: true
         type: string
         default: "10"
@@ -23,6 +23,13 @@ on:
         required: false
         type: string
         default: ""
+  pull_request:
+    branches: [main]
+    paths:
+      - "simulation_matrix/**"
+      - "tests/**"
+      - ".github/workflows/simulation-matrix.yml"
+      - "requirements.txt"
   push:
     branches: [main, "github/**"]
     paths:
