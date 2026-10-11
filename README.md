@@ -27,3 +27,9 @@ The current synthetic adapter is an infrastructure fixture only. It is not a sci
 - RESULT
 
 A successful infrastructure run is not scientific evidence.
+
+## Separate commercial research workflow
+
+The repository also contains isolated, non-simulation tools for the Q33 Commerce Launch. They are lead-research and evidence-completeness workflows, not part of the scientific engine and not evidence of market demand.
+
+See [Q33 Commerce project map](Q33_COMMERCE_PROJECT_MAP.md) for the two folder entry points, tests, and current Bounty Tours audit.
