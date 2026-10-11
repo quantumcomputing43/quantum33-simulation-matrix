@@ -9,8 +9,9 @@ This note documents the two commercial-research folders in this repository. Both
 - Screening CLI: `python -m q33_commerce.screening --leads q33_commerce/prospect_seeds.csv`
 - Tests: `python -m unittest discover -s q33_commerce/tests -v`
 - CI: `.github/workflows/q33-commerce.yml`
+- AgentMail operations and approval gate: `AGENTMAIL_OPERATIONS.md`
 
-This is the broad initial seed list and deterministic evidence-completeness gate.
+This is the broad initial seed list and deterministic evidence-completeness gate. AgentMail send-and-reply was smoke-tested with the project owner; no company outreach has been sent.
 
 ## 2. `q33_company_intelligence/` — detailed research dossiers
 
@@ -31,7 +32,9 @@ They use different CSV schemas and different CLI contracts. A blind merge could 
 
 ## Current evidence status
 
+- AgentMail inbox `veltrix@agentmail.to` sent a test message to the owner, and the owner's reply was observed in the inbox thread.
+- No outreach has been sent to any company; no payment is recorded, and the seven-day paid-pilot window has not started.
 - The Bounty Tours website has a retrieved suspension-page result, but the available crawl is not fresh enough to certify the live status on its own.
-- Bounty Tours contact information is present in public directories, but has not been independently verified as current.
-- No outreach has been sent, no payment is recorded, and the seven-day paid-pilot window has not started.
+- Bounty Tours contact information is present in public directories, but has not been independently verified as current. It remains `HOLD_RESEARCH`.
+- Real company outreach requires a current, source-backed issue/contact check and explicit owner approval of the exact recipient and message.
 - Do not modify the generic Simulation Matrix engine to embed commercial assumptions.
