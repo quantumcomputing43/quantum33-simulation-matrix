@@ -1,0 +1,45 @@
+name: Q33 Commerce Prospect Screen
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_zero_budget:
+        description: "Confirm no paid tools or customer outreach are triggered by this workflow"
+        required: true
+        type: boolean
+        default: true
+  push:
+    branches: ["q33-commerce-launch-v1"]
+    paths:
+      - "q33_commerce/**"
+      - "tests/test_q33_commerce_screening.py"
+      - ".github/workflows/q33-commerce-screen.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run all repository tests
+        run: python -m unittest discover -s tests -v
+      - name: Screen prospect seed list
+        run: python -m q33_commerce.screening --leads q33_commerce/prospect_seeds.csv --json
+      - name: Assert this is not market validation
+        run: |
+          python - <<'PY'
+          import json, subprocess
+          raw = subprocess.check_output([
+              "python", "-m", "q33_commerce.screening",
+              "--leads", "q33_commerce/prospect_seeds.csv", "--json"
+          ], text=True)
+          result = json.loads(raw)
+          assert result["market_validated"] is False
+          assert result["paid_customers"] == 0
+          assert result["status"] == "SCREENING_COMPLETE_NOT_MARKET_VALIDATION"
+          PY
