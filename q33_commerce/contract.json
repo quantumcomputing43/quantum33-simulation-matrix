@@ -1,0 +1,83 @@
+{
+  "project_id": "Q33_COMMERCE_LAUNCH",
+  "case_id": "ZERO_BUDGET_DIGITAL_BUSINESS_SCREEN",
+  "protocol_version": "Q33-COMMERCE-V1",
+  "status": "READY_FOR_PROSPECT_RESEARCH_NOT_MARKET_VALIDATED",
+  "budget_mad": 0,
+  "market": ["Morocco", "international"],
+  "initial_segment": "travel agencies and small tourism operators in Agadir/Souss-Massa",
+  "offer_hypothesis": {
+    "name": "Mobile-first digital service pack",
+    "scope": [
+      "one simple mobile-friendly service/catalog page",
+      "clear contact and WhatsApp call-to-action",
+      "service descriptions in up to two agreed languages",
+      "handover and one correction round"
+    ],
+    "exclusions": [
+      "booking/payment integration",
+      "paid hosting or domain",
+      "ongoing maintenance",
+      "guaranteed traffic, leads, or sales",
+      "unlicensed use of client photos, logos, or copy"
+    ],
+    "pricing_rule": "Quote only after confirming scope; do not invent a market price. Agree in writing before work starts."
+  },
+  "hypotheses": {
+    "H0": "The offer does not produce a qualified buyer or paid pilot in the frozen 7-day test window.",
+    "H1": "At least one unrelated business agrees to and pays for the defined pilot during the 7-day test window.",
+    "H2": "An international segment produces a better qualified response than the Moroccan segment; test only after payment/platform eligibility and comparable outreach are documented."
+  },
+  "primary_endpoint": "At least one real payment from an unrelated customer for the defined pilot within seven calendar days after the first valid outreach.",
+  "secondary_endpoints": [
+    "qualified replies",
+    "discovery conversations",
+    "explicit rejection reasons",
+    "written pilot agreements",
+    "delivery hours",
+    "direct variable costs"
+  ],
+  "hard_constraints": [
+    "zero upfront spend",
+    "phone-accessible free tools only",
+    "no ads, inventory, paid APIs, paid hosting, or subscriptions",
+    "no outreach automation or bulk spam",
+    "no customer data collection beyond necessary public business contact details and recorded responses",
+    "no claim of customer demand without direct evidence"
+  ],
+  "lead_qualification": {
+    "required_before_contact": [
+      "current business existence/contact independently checked",
+      "specific digital problem observed and recorded",
+      "source URL for the observed problem",
+      "proposed fix is within the frozen offer scope"
+    ],
+    "directory_presence_alone_is_not_need_evidence": true
+  },
+  "decision_rule": {
+    "PASS_TO_CUSTOMER_TEST": "A prospect has a source-backed, specific digital issue, a reachable business contact, and a free-to-deliver scoped offer.",
+    "HOLD_RESEARCH": "Contact details or the digital issue are not yet verified.",
+    "FAIL_FOR_THIS_OFFER": "The issue is outside scope, needs paid infrastructure before validation, or has no plausible direct buyer route.",
+    "COMMERCIAL_SUCCESS": "Only after a real unrelated customer pays; simulation and desk research cannot satisfy this condition."
+  },
+  "anti_bias": [
+    "Freeze offer, scope, primary endpoint, and seven-day window before first outreach.",
+    "Log every eligible outreach and every response including silence and rejection.",
+    "Do not change the success threshold after observing results.",
+    "Do not use fabricated conversion rates, prices, revenue, CAC, or willingness-to-pay priors.",
+    "Keep this case separate from BHD, miRNA-21, and Quran/IQCL.",
+    "Do not modify the generic Simulation Matrix engine to embed commercial assumptions."
+  ],
+  "sources": [
+    {
+      "label": "Morocco Ministry of Tourism — travel agency directory",
+      "url": "https://mtaess.gov.ma/fr/annuaires/annuaire-des-agences-de-voyages/",
+      "use": "Prospect discovery only; not proof of digital need or buying intent."
+    },
+    {
+      "label": "Souss-Massa Chamber of Commerce — travel agency listings",
+      "url": "https://ccis-agadir.ma/en/listing-category/agence-de-voyages/",
+      "use": "Public business contact discovery; verify freshness before outreach."
+    }
+  ]
+}
