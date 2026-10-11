@@ -1,0 +1,30 @@
+name: Q33 Company Intelligence Gate
+
+on:
+  pull_request:
+    branches: ["main"]
+    paths:
+      - "q33_company_intelligence/**"
+      - ".github/workflows/q33-company-intelligence.yml"
+  push:
+    branches: ["main"]
+    paths:
+      - "q33_company_intelligence/**"
+      - ".github/workflows/q33-company-intelligence.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-screen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run company intelligence unit tests
+        run: python -m unittest q33_company_intelligence.tests.test_screening -v
+      - name: Screen initial prospect seeds
+        run: python -m q33_company_intelligence.screening q33_company_intelligence/prospects.csv
