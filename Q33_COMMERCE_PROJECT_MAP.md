@@ -23,6 +23,7 @@ This is the broad initial seed list and deterministic evidence-completeness gate
 - Tests: `python -m unittest q33_company_intelligence.tests.test_screening -v`
 - CI: `.github/workflows/q33-company-intelligence.yml`
 - Evidence-qualified Bounty Tours audit: `audits/bounty_tours_public_audit_2026-10-11.json`
+- Simulation Matrix validity preflight: `audits/bounty_tours_sm_preflight_2026-10-11.md` and `.json`
 
 This folder stores richer evidence, unknowns, and human-review gates.
 

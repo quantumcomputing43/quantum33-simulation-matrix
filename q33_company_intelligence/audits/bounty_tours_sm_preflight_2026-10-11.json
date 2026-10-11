@@ -1,0 +1,123 @@
+{
+  "project_id": "Q33_COMMERCE_LAUNCH",
+  "case_id": "BOUNTY_TOURS_DIGITAL_REMEDIATION_PREFLIGHT",
+  "protocol_version": "Q33-CIDF-SM-PREFLIGHT-V1",
+  "frozen_on": "2026-10-11",
+  "status": "BLOCKED_FOR_SIMULATION_EXECUTION",
+  "execution_status": "NOT_RUN",
+  "reason": "The available public website result is a stale crawl (about three months old), business contact details are directory-sourced and not currently confirmed, and the repository's documented Simulation Matrix adapter is a synthetic infrastructure fixture rather than a validated company-specific remediation adapter.",
+  "validity_audit": {
+    "question_validity": "The current business problem is not yet confirmed by Bounty Tours.",
+    "leakage": "No customer outcome or business response data are available; do not use simulated outputs as customer evidence.",
+    "circularity": "Do not define the winning intervention as the one already proposed by VELTRIX.",
+    "hidden_assumptions": [
+      "A hosting suspension does not establish that the company is closed.",
+      "A temporary landing page does not restore the official domain or hosting.",
+      "A directory email address may be stale.",
+      "Simulated task success does not establish more bookings, leads, or revenue."
+    ],
+    "controls_and_null": [
+      "H0/null: no current digital problem is verified; no build or outreach.",
+      "Baseline: current official-site state after fresh live verification.",
+      "Control: no intervention / existing reachable contact route, if one exists."
+    ],
+    "endpoints": {
+      "primary_technical": "A user can reach a company-confirmed public inquiry route from a mobile device within three clear actions, without misleading booking/payment claims.",
+      "secondary_technical": [
+        "Service information is accurate and company-approved.",
+        "Language and contact details are confirmed by the company.",
+        "No paid hosting/domain/API dependency is introduced.",
+        "Keyboard and narrow-screen checks pass."
+      ],
+      "not_valid_endpoints": [
+        "Bookings or revenue inferred from simulation.",
+        "Traffic or conversion uplift without real measured data.",
+        "Website restoration without domain/hosting-owner authorization."
+      ]
+    },
+    "identifiability": "A live outage, a broken contact journey, stale copy, and a company that no longer wants the service are different causes and cannot be distinguished from directory data alone.",
+    "reproducibility": {
+      "seeds": [42, 43, 44, 45, 46],
+      "stopping_rule": "Do not run a company-specific simulation until the live issue, desired outcome, contact route, and adapter are verified and frozen. After a valid adapter exists, preserve its code/version, inputs, seeds, and run logs.",
+      "provenance_required": [
+        "Fresh live URL and checked timestamp",
+        "Company-confirmed need and approved copy/contact details",
+        "Adapter version and code hash",
+        "Frozen scenarios, baseline, null, metric, pass/fail thresholds",
+        "Run logs and output artifact"
+      ]
+    }
+  },
+  "frozen_hypotheses": [
+    {
+      "id": "H0",
+      "statement": "No current actionable digital problem is established.",
+      "decision": "Keep HOLD_RESEARCH; no build and no outreach."
+    },
+    {
+      "id": "H1",
+      "statement": "The official site is currently suspended and the company confirms it wants help with the online presence.",
+      "decision": "First direct the company to its authorized hosting/domain administrator. VELTRIX must not claim it can restore hosting. A standalone temporary page is only considered if explicitly requested and approved."
+    },
+    {
+      "id": "H2",
+      "statement": "The official site is reachable but a specific mobile service/contact task fails reproducibly.",
+      "decision": "Only after company confirmation, test a small mobile-first service/contact-page prototype against the baseline."
+    },
+    {
+      "id": "H3",
+      "statement": "The site and contact journey work for the defined task, or the company declines assistance.",
+      "decision": "No intervention; record NOT_A_FIT or close the research record."
+    }
+  ],
+  "scenario_design_after_gate": {
+    "factors": [
+      "site state: reachable / suspended / intermittent",
+      "device: narrow mobile / desktop",
+      "language: company-confirmed French / English / Arabic where applicable",
+      "contact route: verified working / broken / unknown",
+      "service copy: company-approved / unverified",
+      "booking system: out of scope / requires paid or privileged integration"
+    ],
+    "adversarial_checks": [
+      "Broken or stale email/phone link",
+      "Page appears available but CTA points to the wrong destination",
+      "Unapproved prices, availability, claims, images, or logos",
+      "Visitor mistakes inquiry page for a confirmed booking/payment flow",
+      "Mobile layout hides the contact action",
+      "No company authorization to publish or host the page"
+    ],
+    "pass_rule": "All critical factual, authorization, contact-route, and mobile-task checks pass; any unknown critical input fails closed.",
+    "scope_rule": "No domain/DNS/hosting/account changes, booking/payment integrations, paid dependencies, or claims of commercial uplift."
+  },
+  "current_evidence": [
+    {
+      "label": "OBSERVED_IN_RETRIEVED_WEB_CONTENT",
+      "url": "https://www.bounty-tours.com/",
+      "checked": "2026-10-11",
+      "finding": "The available open result redirects to a hosting-provider suspended-page template.",
+      "limitation": "The page result itself reports a crawl about three months old; current live status is unconfirmed."
+    },
+    {
+      "label": "DIRECTORY_RECORD",
+      "url": "https://ccis-agadir.ma/en/listing-category/agence-de-voyages/",
+      "checked": "2026-10-11",
+      "finding": "The directory page is currently indexed and lists Bounty Tours, but the individual listing is dated 2024-07-29.",
+      "limitation": "A fresh crawl of the directory does not make the 2024 contact details current."
+    },
+    {
+      "label": "CORROBORATING_DIRECTORY",
+      "url": "https://www.charika.ma/societe-bounty-tours-134382",
+      "checked": "2026-10-11",
+      "finding": "Charika lists Bounty Tours as a travel/tourism agency in Agadir and repeats business contact details.",
+      "limitation": "Directory presence is not direct confirmation of current operation, contact, or need."
+    }
+  ],
+  "outreach": {
+    "sent": false,
+    "automatic_sending_allowed": false,
+    "gate": "No company email or message until the user approves the exact recipient and message after fresh verification."
+  },
+  "decision": "HOLD_RESEARCH",
+  "next_step": "Freshly check the official site in a normal browser, verify one public business contact route independently, then seek confirmation that the observed issue is current and wanted. Only then freeze a business-specific adapter and execute Simulation Matrix tests."
+}
