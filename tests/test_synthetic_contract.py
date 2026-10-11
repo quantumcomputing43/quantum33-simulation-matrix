@@ -5,7 +5,7 @@ from pathlib import Path
 
 from simulation_matrix.cases.synthetic import SyntheticAdapter, STAGES
 from simulation_matrix.config import load_matrix
-from simulation_matrix.engine import _validate_adapter_identity
+from simulation_matrix.engine import _validate_adapter_identity, _validate_stage_result
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -56,6 +56,10 @@ class SyntheticContractTests(unittest.TestCase):
         bad["case_id"] = "other.case"
         with self.assertRaisesRegex(RuntimeError, "case_id mismatch"):
             _validate_adapter_identity(bad, self.adapter)
+
+    def test_malformed_stage_result_fails_closed(self):
+        with self.assertRaisesRegex(TypeError, "passed must be a bool"):
+            _validate_stage_result("FALSIFICATION", {"stage": "FALSIFICATION", "passed": True})
 
     def test_missing_adapter_method_fails_closed(self):
         class BadAdapter:
