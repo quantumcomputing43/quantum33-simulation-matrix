@@ -5,7 +5,6 @@ from pathlib import Path
 
 from simulation_matrix.cases.synthetic import SyntheticAdapter, STAGES
 from simulation_matrix.config import load_matrix
-from simulation_matrix.contracts import StageResult
 from simulation_matrix.engine import _validate_adapter_identity
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -19,10 +18,9 @@ class SyntheticContractTests(unittest.TestCase):
         cls.context = {"matrix": cls.matrix, "execution_identity": "test"}
 
     def test_every_registered_stage_passes_without_scientific_claim(self):
-        self.assertEqual(set(self.matrix["pipeline"][i]["stage"] for i in range(len(self.matrix["pipeline"])), STAGES)
+        self.assertEqual({item["stage"] for item in self.matrix["pipeline"]}, STAGES)
         for stage in sorted(STAGES):
             result = self.adapter.run_stage(stage, seed=42, context=self.context)
-            self.assertIsInstance(result, StageResult)
             self.assertEqual(result.stage, stage)
             self.assertTrue(result.passed)
             self.assertFalse(result.details["scientific_experiment"])
@@ -59,16 +57,12 @@ class SyntheticContractTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, "case_id mismatch"):
             _validate_adapter_identity(bad, self.adapter)
 
-    def test_bad_adapter_result_shape_is_not_silently_accepted(self):
+    def test_missing_adapter_method_fails_closed(self):
         class BadAdapter:
             case_id = "synthetic.contract"
             protocol_version = "test"
-            def run_stage(self, stage, *, seed, context):
-                return {"stage": stage, "passed": True}
-        bad = BadAdapter()
-        _validate_adapter_identity(self.matrix, bad)
-        returned = bad.run_stage("FALSIFICATION", seed=42, context=self.context)
-        self.assertFalse(isinstance(getattr(returned, "passed", None), bool))
+        with self.assertRaisesRegex(RuntimeError, "run_stage"):
+            _validate_adapter_identity(self.matrix, BadAdapter())
 
 
 if __name__ == "__main__":
