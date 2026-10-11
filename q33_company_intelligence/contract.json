@@ -1,0 +1,58 @@
+{
+  "project_id": "Q33_COMMERCE_LAUNCH",
+  "case_id": "COMPANY_INTELLIGENCE_DEAL_FINDER",
+  "protocol_version": "Q33-CIDF-V1",
+  "budget_mad": 0,
+  "initial_market": "Agadir/Souss-Massa, Morocco",
+  "initial_segment": "travel agencies and small tourism operators",
+  "objective": "Find a specific, source-backed business problem before proposing or building a solution.",
+  "offer_hypothesis": {
+    "name": "Mobile-first digital service pack",
+    "scope": [
+      "one simple mobile-friendly service/catalog page",
+      "clear contact or WhatsApp action using a business-provided public contact route",
+      "service descriptions in up to two agreed languages",
+      "handover and one correction round"
+    ],
+    "exclusions": [
+      "booking/payment integration",
+      "paid hosting/domain/API/subscription",
+      "ongoing maintenance",
+      "guaranteed traffic, leads, sales or revenue",
+      "use of unlicensed images, logos or copy"
+    ],
+    "pricing_rule": "Quote only after discovery and scope confirmation; agree in writing before work starts."
+  },
+  "evidence_rules": {
+    "separate_fact_inference_unknown": true,
+    "each_observed_problem_requires_source_url_and_checked_date": true,
+    "directory_listing_alone_is_not_need_evidence": true,
+    "do_not_infer_owner_or_decision_maker_identity": true,
+    "decision_maker_only_if_publicly_identified_in_professional_context": true,
+    "verify_contact_before_outreach": true,
+    "no_bulk_or_automated_outreach": true
+  },
+  "primary_endpoint": "At least one real payment from an unrelated customer for the defined pilot within seven calendar days after the first valid outreach.",
+  "secondary_endpoints": [
+    "qualified replies",
+    "discovery calls",
+    "explicit rejection reasons",
+    "written pilot agreements",
+    "delivery hours",
+    "direct costs"
+  ],
+  "states": {
+    "HOLD_RESEARCH": "Business status, current contact, or specific issue not sufficiently verified.",
+    "READY_FOR_HUMAN_REVIEW": "Public contact route verified, at least one specific observed issue has a source and date, and the proposed fix is in scope.",
+    "CONTACTED": "A human-reviewed individual message was actually sent; record date and channel.",
+    "PAID_PILOT": "Payment evidence recorded for the agreed scope.",
+    "NOT_A_FIT": "Issue outside scope, no reachable business route, or prospect explicitly declines."
+  },
+  "anti_bias": [
+    "Do not claim a company has a problem without evidence.",
+    "Do not invent market prices, conversion rates, willingness-to-pay or revenue.",
+    "Record silence and rejection, not only positive responses.",
+    "Do not start the seven-day window before the first valid outreach.",
+    "Keep separate from BHD, miRNA-21 and Quran/IQCL projects."
+  ]
+}
