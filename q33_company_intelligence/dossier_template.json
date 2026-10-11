@@ -1,0 +1,91 @@
+{
+  "company_name": "",
+  "legal_or_public_identity": "",
+  "sector": "",
+  "products_services": [],
+  "target_customers": [],
+  "geographies_languages": [],
+  "business_model_hypothesis": "",
+  "current_status": "UNKNOWN",
+  "sources": [
+    {
+      "url": "",
+      "publisher": "",
+      "checked_date": "",
+      "supports": ""
+    }
+  ],
+  "digital_presence": {
+    "website_url": "",
+    "mobile_review": "",
+    "service_clarity": "",
+    "contact_routes": [],
+    "quote_or_booking_flow": "",
+    "languages": "",
+    "social_profiles": [],
+    "accessibility_or_trust_signals": []
+  },
+  "observations": [
+    {
+      "id": "OBS-001",
+      "type": "OBSERVED_FACT",
+      "description": "",
+      "source_url": "",
+      "checked_date": "",
+      "customer_or_business_impact_hypothesis": "",
+      "confidence": "LOW"
+    }
+  ],
+  "unknowns": [],
+  "public_business_contact": {
+    "channel": "",
+    "value": "",
+    "source_url": "",
+    "checked_date": "",
+    "verified_currently": false
+  },
+  "public_decision_maker": {
+    "name": "",
+    "role": "",
+    "source_url": "",
+    "checked_date": "",
+    "public_professional_context_only": true
+  },
+  "potential_needs": [
+    {
+      "need_hypothesis": "",
+      "evidence_for": [],
+      "evidence_against": [],
+      "validation_question": ""
+    }
+  ],
+  "offer_fit": {
+    "fits_frozen_scope": false,
+    "proposed_deliverable": "",
+    "estimated_delivery_days": "",
+    "paid_dependencies": false,
+    "out_of_scope_risks": []
+  },
+  "outreach": {
+    "stage": "HOLD_RESEARCH",
+    "tailored_message": "",
+    "human_reviewed": false,
+    "sent_date": "",
+    "channel": "",
+    "response": "NOT_CONTACTED",
+    "follow_up_permission_or_preference": "UNKNOWN"
+  },
+  "commercial_evidence": {
+    "written_scope_agreed": false,
+    "price_agreed_mad": null,
+    "payment_received": false,
+    "payment_date": "",
+    "evidence_reference": ""
+  },
+  "audit": {
+    "reviewer": "",
+    "last_reviewed_date": "",
+    "decision": "HOLD_RESEARCH",
+    "reason": ""
+  }
+}
