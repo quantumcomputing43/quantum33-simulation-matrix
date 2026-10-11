@@ -1,0 +1,96 @@
+{
+  "project_id": "Q33_COMMERCE_LAUNCH",
+  "case_id": "BOUNTY_TOURS_PUBLIC_DIGITAL_PRESENCE_AUDIT",
+  "protocol_version": "Q33-CIDF-V1",
+  "audit_date": "2026-10-11",
+  "status": "HOLD_RESEARCH",
+  "decision": "Do not mark ready for outreach until the website status and contact are independently rechecked.",
+  "company": {
+    "name": "BOUNTY TOURS",
+    "sector": "travel agency / tourism",
+    "city": "Agadir, Morocco",
+    "public_listing_source": "https://ccis-agadir.ma/en/listing-category/agence-de-voyages/",
+    "public_website": "https://www.bounty-tours.com/"
+  },
+  "observations": [
+    {
+      "id": "OBS-001",
+      "label": "OBSERVED_IN_RETRIEVED_WEB_CONTENT",
+      "description": "The retrieved homepage response redirects to a hosting-provider suspended-page template, which says the site is suspended and lists possible billing or terms-of-service reasons. This is evidence of a website availability problem in the retrieved response, not evidence that the business itself is closed or that the stated suspension reason applies.",
+      "source_url": "https://www.bounty-tours.com/",
+      "retrieved_on": "2026-10-11",
+      "freshness_caveat": "The search/open result reports an older crawl (approximately three months old); perform a fresh manual browser check before treating this as a current live outage.",
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "OBS-002",
+      "label": "DIRECTORY_RECORD",
+      "description": "The Souss-Massa Chamber of Commerce listing identifies Bounty Tours in Agadir and lists a public business phone number and two email addresses. The listing is dated July 2024 and does not establish that the contact details are still current.",
+      "source_url": "https://ccis-agadir.ma/en/listing-category/agence-de-voyages/",
+      "source_record_date": "2024-07-29",
+      "retrieved_on": "2026-10-11",
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "OBS-003",
+      "label": "CORROBORATING_BUSINESS_DIRECTORY",
+      "description": "Charika lists Bounty Tours as a travel and tourism agency at an Agadir address and repeats the public website and business contact details. This is an independent directory listing, not direct confirmation from the company.",
+      "source_url": "https://www.charika.ma/societe-bounty-tours-134382",
+      "retrieved_on": "2026-10-11",
+      "confidence": "MEDIUM"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "HYP-001",
+      "statement": "If the official website is currently suspended, visitors may be unable to use its online service/catalog and booking journey.",
+      "evidence_for": [
+        "Retrieved homepage shows a hosting-provider suspension page."
+      ],
+      "evidence_against_or_unknown": [
+        "The retrieved page may be stale.",
+        "No analytics or customer reports were available.",
+        "No evidence establishes lost bookings or revenue."
+      ],
+      "validation_question": "Is the website suspension current and known to the company, and is the company seeking help with its online presence?"
+    }
+  ],
+  "offer_fit": {
+    "fits_frozen_zero_budget_offer_only_if": "The company confirms a need for a temporary, standalone mobile-friendly service/contact page and supplies authorized copy, contact details, and any licensed assets.",
+    "out_of_scope": [
+      "Restoring the existing domain or hosting account",
+      "Changing DNS, hosting billing, server configuration, or domain ownership",
+      "Accessing company accounts without explicit authorization",
+      "Rebuilding the booking engine or processing bookings/payments"
+    ],
+    "do_not_promise": [
+      "Restoration of the official website",
+      "Traffic, bookings, leads, or revenue"
+    ]
+  },
+  "contact": {
+    "current_contact_verified": false,
+    "outreach_sent": false,
+    "next_allowed_step": "A human should confirm the current business contact and, if appropriate, ask whether the website issue is known before proposing any scoped service."
+  },
+  "commercial_validation": {
+    "paid_customer_count": 0,
+    "market_validated": false,
+    "seven_day_test_started": false,
+    "reason": "No valid outreach has been sent and no payment evidence is recorded."
+  },
+  "sources": [
+    {
+      "label": "Souss-Massa Chamber of Commerce travel-agency listing",
+      "url": "https://ccis-agadir.ma/en/listing-category/agence-de-voyages/"
+    },
+    {
+      "label": "Charika Bounty Tours company record",
+      "url": "https://www.charika.ma/societe-bounty-tours-134382"
+    },
+    {
+      "label": "Bounty Tours official website",
+      "url": "https://www.bounty-tours.com/"
+    }
+  ]
+}
