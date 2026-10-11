@@ -57,6 +57,20 @@ def _validate_adapter_identity(matrix: dict, adapter) -> None:
         raise RuntimeError("adapter must implement callable run_stage")
 
 
+def _validate_stage_result(expected_stage: str, result) -> None:
+    if getattr(result, "stage", None) != expected_stage:
+        raise TypeError(
+            f"adapter returned stage {getattr(result, 'stage', None)!r}; "
+            f"expected {expected_stage!r}"
+        )
+    if not isinstance(getattr(result, "passed", None), bool):
+        raise TypeError("stage result passed must be a bool")
+    if not isinstance(getattr(result, "status", None), str) or not result.status:
+        raise TypeError("stage result status must be a non-empty string")
+    if not isinstance(getattr(result, "details", None), dict):
+        raise TypeError("stage result details must be a dict")
+
+
 def run(root: Path) -> dict:
     matrix = load_matrix(root / "matrix.json")
     adapter = load_case()
@@ -97,17 +111,7 @@ def run(root: Path) -> dict:
                 stage, seed=matrix["seed"],
                 context={"matrix": matrix, "execution_identity": identity},
             )
-            if getattr(result, "stage", None) != stage:
-                raise TypeError(
-                    f"adapter returned stage {getattr(result, 'stage', None)!r}; "
-                    f"expected {stage!r}"
-                )
-            if not isinstance(getattr(result, "passed", None), bool):
-                raise TypeError("stage result passed must be a bool")
-            if not isinstance(getattr(result, "status", None), str) or not result.status:
-                raise TypeError("stage result status must be a non-empty string")
-            if not isinstance(getattr(result, "details", None), dict):
-                raise TypeError("stage result details must be a dict")
+            _validate_stage_result(stage, result)
         except Exception as exc:
             item = {
                 "stage": stage,
