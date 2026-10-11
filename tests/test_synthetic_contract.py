@@ -1,6 +1,7 @@
 """Regression tests for the synthetic infrastructure contract."""
 import copy
 import unittest
+from types import SimpleNamespace
 from pathlib import Path
 
 from simulation_matrix.cases.synthetic import SyntheticAdapter, STAGES
@@ -59,7 +60,7 @@ class SyntheticContractTests(unittest.TestCase):
 
     def test_malformed_stage_result_fails_closed(self):
         with self.assertRaisesRegex(TypeError, "passed must be a bool"):
-            _validate_stage_result("FALSIFICATION", {"stage": "FALSIFICATION", "passed": True})
+            _validate_stage_result("FALSIFICATION", SimpleNamespace(stage="FALSIFICATION", passed=1, status="PASS", details={}))
 
     def test_missing_adapter_method_fails_closed(self):
         class BadAdapter:
