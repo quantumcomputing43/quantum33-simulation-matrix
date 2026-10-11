@@ -9,7 +9,7 @@
 - `contract.json`: frozen offer hypothesis, endpoint, constraints, and decision rules.
 - `prospect_seeds.csv`: 20 businesses listed in the Moroccan Ministry of Tourism travel-agency directory. These are **unqualified prospect seeds**, not companies known to need or want our service.
 - `screening.py`: deterministic data-quality/qualification gate; it does not predict demand or send messages.
-- `tests/test_screening.py`: tests for the qualification gate.
+- `tests/test_screening.py`: isolated unit tests for the qualification gate.
 - `outreach_templates.md`: respectful, individually tailored outreach templates.
 
 ## Frozen initial offer hypothesis
@@ -42,10 +42,14 @@ The current generic engine hard-codes `SyntheticAdapter` and the existing workfl
 
 ## Run locally (Python standard library)
 
+From the repository root:
+
 ```bash
-python -m unittest discover -s tests -v
+python -m unittest discover -s q33_commerce/tests -v
 python -m q33_commerce.screening --leads q33_commerce/prospect_seeds.csv
 ```
+
+GitHub Actions runs these same checks for changes to `q33_commerce/`.
 
 ## Evidence links
 

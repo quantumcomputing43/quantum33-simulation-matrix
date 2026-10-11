@@ -1,0 +1,30 @@
+name: Q33 Commerce Gate
+
+on:
+  pull_request:
+    branches: ["main"]
+    paths:
+      - "q33_commerce/**"
+      - ".github/workflows/q33-commerce.yml"
+  push:
+    branches: ["main"]
+    paths:
+      - "q33_commerce/**"
+      - ".github/workflows/q33-commerce.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-screen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run isolated commerce screening tests
+        run: python -m unittest discover -s q33_commerce/tests -v
+      - name: Screen prospect seeds
+        run: python -m q33_commerce.screening --leads q33_commerce/prospect_seeds.csv
