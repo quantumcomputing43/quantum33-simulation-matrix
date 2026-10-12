@@ -1,0 +1,43 @@
+name: Q33 Dropshipping Zero-Budget Audit
+
+on:
+  push:
+    branches: ["commerce/dropshipping-zero-budget-audit-20261012"]
+    paths:
+      - "dropshipping/**"
+      - ".github/workflows/dropshipping-zero-budget.yml"
+  workflow_dispatch:
+    inputs:
+      confirm_no_paid_actions:
+        description: "Confirm this workflow runs local tests only; no paid services, store, ads, orders, or outreach"
+        required: true
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    if: github.event_name != 'workflow_dispatch' || inputs.confirm_no_paid_actions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run isolated zero-budget simulation tests
+        run: python -m unittest discover -s dropshipping -p 'test_*.py' -v
+      - name: Run sensitivity simulation
+        run: python -m dropshipping.simulate
+      - name: Assert simulation is not market validation
+        run: |
+          python - <<'PY'
+          from dropshipping.simulate import run
+          result = run()
+          assert result["market_validated"] is False
+          assert result["real_supplier_verified"] is False
+          assert result["real_payment_route_verified"] is False
+          assert result["real_orders"] == 0
+          assert result["revenue_mad"] == 0
+          PY
