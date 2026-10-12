@@ -1,0 +1,47 @@
+{
+  "project_id": "Q33_DROPSHIPPING_ZERO_BUDGET",
+  "case_id": "MOROCCO_AND_INTERNATIONAL_PHYSICAL_DROPSHIPPING",
+  "protocol_version": "Q33-DROP-0MAD-V1",
+  "status": "PRELAUNCH_AUDIT_ONLY",
+  "budget_mad": 0,
+  "markets": ["Morocco", "international"],
+  "model": "physical dropshipping; supplier fulfills directly to customer; no inventory owned by operator",
+  "frozen_hypothesis": "At least one compliant supplier/platform/payment route can fulfill a real order for a Morocco-based seller with zero upfront cash, positive contribution margin after fees/returns, and a lawful payout path.",
+  "primary_endpoint": "A verified supplier and eligible platform/payment route documented in writing, with all-in order economics showing positive contribution margin and zero required upfront cash.",
+  "commercial_success_endpoint": "At least one unrelated customer order completed and payout received; simulation and supplier discovery do not count as revenue.",
+  "candidate_archetypes": [
+    "home organization accessories",
+    "pet accessories",
+    "simple phone stands and non-electrical accessories"
+  ],
+  "constraints": [
+    "No paid subscriptions, ads, inventory, paid APIs, or paid hosting before validation.",
+    "Do not create a paid storefront or publish a checkout before payment eligibility is verified.",
+    "Do not claim a supplier, fee, price, demand, or payout method is verified without a current primary source or written confirmation.",
+    "Do not collect customer personal data or send outreach automatically.",
+    "Do not treat illustrative assumptions as real market observations.",
+    "Keep this commercial case isolated from the generic Simulation Matrix and from BHD, miRNA-21, and Quran/IQCL."
+  ],
+  "required_gates": [
+    "supplier and fulfillment terms verified",
+    "all-in product, shipping, platform, payment, refund and return costs verified",
+    "seller eligibility from Morocco verified",
+    "payout method and settlement delay verified",
+    "zero-upfront-cash feasibility verified",
+    "positive contribution margin in base and stress scenarios",
+    "consumer, tax, and foreign-exchange obligations reviewed"
+  ],
+  "decision_rule": {
+    "PASS_TO_MANUAL_PILOT": "Every required gate is evidence-backed, zero upfront cash is confirmed, and stress-case contribution margin remains positive.",
+    "HOLD_RESEARCH": "Any supplier, platform, payout, fee, shipping, return or compliance field is unknown.",
+    "FAIL_ZERO_BUDGET_MODEL": "Any unavoidable upfront payment is required, or contribution margin is non-positive in the stress case.",
+    "COMMERCIAL_SUCCESS": "Only after a real unrelated customer order is fulfilled and payout is received."
+  },
+  "simulation_policy": {
+    "seed": 42,
+    "method": "deterministic sensitivity analysis",
+    "status": "ILLUSTRATIVE_NOT_MARKET_EVIDENCE",
+    "no_fitted_conversion_rates": true,
+    "no_invented_demand_or_revenue": true
+  }
+}
