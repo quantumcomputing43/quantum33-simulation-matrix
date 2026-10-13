@@ -1,0 +1,63 @@
+{
+  "project_id": "Q33_GLOBAL_ZERO_BUDGET_SERVICE_OPPORTUNITIES",
+  "case_id": "GLOBAL_SERVICE_FIRST_PAID_CUSTOMER",
+  "protocol_version": "Q33-OPP-ZERO-V1",
+  "status": "RESEARCH_SCREENING_ONLY",
+  "budget_mad": 0,
+  "market": "global",
+  "priority": "fast_first_paid_customer",
+  "model": "service",
+  "rules": {
+    "evidence_before_claims": true,
+    "no_invented_demand_or_profit": true,
+    "no_paid_ads": true,
+    "no_paid_apis_or_subscriptions": true,
+    "no_inventory_or_upfront_spend": true,
+    "no_automated_outreach": true,
+    "no_external_messages_without_per_action_approval": true,
+    "no_account_creation_or_spending_without_approval": true,
+    "no_personal_data_collection_without_legal_basis": true,
+    "no_security_intrusion_or_exploitation": true,
+    "separate_from_bhd_mirna21_quran_iqcl": true,
+    "commercial_validation_requires_real_paid_completed_customer_transaction": true
+  },
+  "screening_stages": [
+    "SOURCE_AND_DATE_AUDIT",
+    "BUYER_PROBLEM_EVIDENCE",
+    "COMPETITION_AND_SUBSTITUTES",
+    "ZERO_UPFRONT_COST_AUDIT",
+    "MOROCCO_SELLER_AND_PAYOUT_AUDIT",
+    "DELIVERY_TIME_AND_MARGIN_STRESS_TEST",
+    "FALSIFICATION",
+    "RANKED_SHORTLIST",
+    "HUMAN_APPROVAL_FOR_EXTERNAL_ACTION"
+  ],
+  "required_candidate_fields": [
+    "candidate_id",
+    "target_buyer",
+    "problem_statement",
+    "source_urls_and_dates",
+    "demand_evidence_strength",
+    "competition_and_substitutes",
+    "startup_cost_mad",
+    "platform_fees",
+    "payout_eligibility_status",
+    "estimated_delivery_hours",
+    "test_offer",
+    "falsification_condition",
+    "status"
+  ],
+  "status_taxonomy": [
+    "RESEARCH_ONLY",
+    "HYPOTHESIS",
+    "READY_FOR_TEST",
+    "TESTED_NO_SIGNAL",
+    "TESTED_INTEREST",
+    "PAID_PILOT",
+    "VALIDATED_AFTER_COMPLETION_AND_PAYMENT",
+    "REJECTED",
+    "BLOCKED"
+  ],
+  "pass_rule": "A candidate may be READY_FOR_TEST only if sources support the buyer problem, a no-upfront test exists, and key payout/legal blockers are disclosed. No candidate is commercially validated until a real customer pays and the agreed work is completed.",
+  "budget_gate": "Any unavoidable upfront cost greater than 0 MAD is an automatic FAIL for the current phase."
+}
